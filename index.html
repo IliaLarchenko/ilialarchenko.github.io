@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ilia Larchenko — robotics &amp; ML</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ilia Larchenko — Data Science Director at Agoda, robotics &amp; ML side projects. BEHAVIOR Challenge 1st place, Kaggle TOP-20, open-source VLA models.">
+  <meta name="author" content="Ilia Larchenko">
+  <meta name="color-scheme" content="light">
+  <link rel="canonical" href="https://ilialarchenko.com/">
+
+  <!-- ═══ Open Graph (Facebook, LinkedIn, Slack, Discord, Telegram, iMessage…) ═══ -->
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Ilia Larchenko">
+  <meta property="og:title" content="Ilia Larchenko — robotics &amp; ML">
+  <meta property="og:description" content="Data Science Director at Agoda. Robotics, ML &amp; AI side projects. 1st place at BEHAVIOR Challenge (NeurIPS 2025) and LeHome Challenge (ICRA 2026). Kaggle TOP-20.">
+  <meta property="og:url" content="https://ilialarchenko.com/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://ilialarchenko.com/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://ilialarchenko.com/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ilia Larchenko — Data Science Director at Agoda. Robotics, ML &amp; AI side projects.">
+  <meta property="profile:first_name" content="Ilia">
+  <meta property="profile:last_name" content="Larchenko">
+  <meta property="profile:username" content="IliaLarchenko">
+
+  <!-- ═══ Twitter / X Card ═══ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@IliaLarchenko">
+  <meta name="twitter:creator" content="@IliaLarchenko">
+  <meta name="twitter:title" content="Ilia Larchenko — robotics &amp; ML">
+  <meta name="twitter:description" content="Data Science Director at Agoda. Robotics, ML &amp; AI side projects. 1st place at BEHAVIOR (NeurIPS 2025) and LeHome (ICRA 2026). Kaggle TOP-20.">
+  <meta name="twitter:image" content="https://ilialarchenko.com/assets/og-image.png">
+  <meta name="twitter:image:alt" content="Ilia Larchenko — Data Science Director at Agoda. Robotics, ML &amp; AI side projects.">
+
+  <!-- ═══ Theme color for browser chrome on share previews / mobile ═══ -->
+  <meta name="theme-color" content="#FAFAFA">
+
+  <!-- ═══ Schema.org Person — richer crawler/LLM-friendly metadata ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ilia Larchenko",
+    "givenName": "Ilia",
+    "familyName": "Larchenko",
+    "url": "https://ilialarchenko.com/",
+    "image": "https://ilialarchenko.com/assets/og-image.png",
+    "jobTitle": "Director of Data Science",
+    "worksFor": { "@type": "Organization", "name": "Agoda" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Moscow Institute of Physics and Technology" },
+    "sameAs": [
+      "https://github.com/IliaLarchenko",
+      "https://www.youtube.com/@ilialarchenko",
+      "https://www.linkedin.com/in/larchenko/",
+      "https://x.com/IliaLarchenko",
+      "https://www.kaggle.com/ilialar"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="colors_and_type.css">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <style>
+    /* ─── Reset / base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg-1);
+      font-family: var(--font-sans);
+      font-size: var(--t-base);
+      line-height: var(--lh-base);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+
+    /* ─── Layout container ──────────────────────────────────── */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ─── Sticky nav ────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 250, 250, 0.92);
+      backdrop-filter: saturate(140%) blur(8px);
+      -webkit-backdrop-filter: saturate(140%) blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 64px;
+    }
+    .wordmark {
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+    .wordmark img { display: block; height: 28px; width: auto; }
+    .nav-sections {
+      display: flex;
+      gap: 22px;
+      margin-left: 8px;
+    }
+    .nav-sections a {
+      font-size: 14px;
+      color: var(--fg-2);
+      text-decoration: none;
+      transition: color var(--dur-fast) var(--ease);
+    }
+    .nav-sections a:hover { color: var(--fg-1); }
+    .nav-spacer { flex: 1; }
+    .nav-socials {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nav-socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--fg-1);
+      text-decoration: none;
+      transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+    }
+    .nav-socials a:hover {
+      background: var(--fg-1);
+      color: var(--bg);
+      border-color: var(--fg-1);
+    }
+    .nav-socials a svg {
+      width: 15px; height: 15px;
+      fill: currentColor;
+    }
+    @media (max-width: 920px) {
+      .nav-sections { display: none; }
+    }
+    @media (max-width: 720px) {
+      .nav-inner { gap: 12px; height: 56px; }
+      .wordmark img { height: 24px; }
+      .nav-socials { gap: 5px; }
+      .nav-socials a { width: 32px; height: 32px; }
+    }
+
+    /* ─── Hero — bento ─────────────────────────────────────── */
+    .hero { padding: 56px 0 24px; }
+    .bento { display: grid; gap: 12px; }
+    .bento-top {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+    .bento-stats {
+      display: grid;
+      /* 6-col base; tiles claim 2 cols (= 3 per row) or 3 cols (= 2 per row) via data-size */
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-auto-rows: 130px;
+      gap: 12px;
+    }
+    .bento-stats > .tile { grid-column: span 2; }
+    .bento-stats > .tile[data-size="wide"] { grid-column: span 3; }
+
+    @media (max-width: 900px) {
+      /* collapse to 2-up: every tile is half-width */
+      .bento-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bento-stats > .tile,
+      .bento-stats > .tile[data-size="wide"] { grid-column: span 1; }
+    }
+    @media (max-width: 520px) {
+      .bento-stats { grid-template-columns: 1fr; }
+      .bento-stats > .tile,
+      .bento-stats > .tile[data-size="wide"] { grid-column: span 1; }
+    }
+    .tile {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .tile.solid { background: var(--fg-1); color: #fff; border-color: var(--fg-1); }
+    .tile.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tile .meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .tile.solid .meta, .tile.accent .meta { color: rgba(255,255,255,0.65); }
+    .tile-stat .num {
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--fg-1);
+      text-wrap: balance;
+    }
+    .tile.accent .num, .tile.solid .num { color: #fff; }
+    .tile-stat .num .accent { color: var(--accent); }
+    .tile.accent .num .accent, .tile.solid .num .accent { color: #fff; }
+    .tile-stat .sub {
+      font-size: 13px;
+      color: var(--fg-2);
+      margin-top: 6px;
+    }
+    .tile.solid .sub, .tile.accent .sub { color: rgba(255,255,255,0.78); }
+
+    /* Name + photo hero row */
+    .tile-name {
+      padding: 36px 40px;
+      justify-content: center;
+      min-height: 280px;
+    }
+    .tile-name h1 {
+      margin: 0;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      color: var(--fg-1);
+    }
+    .tile-name h1 .accent { color: var(--accent); }
+    .tile-name p {
+      margin: 18px 0 0;
+      font-size: clamp(15px, 1.4vw, 17px);
+      line-height: 1.55;
+      color: var(--fg-2);
+      max-width: 560px;
+    }
+    .tile-photo {
+      padding: 0;
+      overflow: hidden;
+      background: var(--surface-2);
+      min-height: 280px;
+    }
+    .tile-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .tile-stat .num .plus { color: var(--accent); margin-left: 1px; }
+    .tile.accent .num .plus, .tile.solid .num .plus { color: #fff; }
+    .tile-stat .num .ord { font-size: 0.65em; letter-spacing: 0; vertical-align: 0.4em; margin-left: 1px; font-weight: 500; }
+    .tile-stat .num .src { color: var(--fg-2); font-weight: 500; }
+    .tile.accent .num .src, .tile.solid .num .src { color: rgba(255,255,255,0.85); }
+    .tile-stat .num .unit { font-size: 0.5em; font-weight: 500; margin-left: 6px; letter-spacing: 0; opacity: 0.8; }
+
+      @media (max-width: 720px) {
+      .bento-top { grid-template-columns: 1fr; }
+      .tile-name { min-height: 0; padding: 24px; }
+      .tile-photo { min-height: 240px; height: 240px; }
+      .bento-stats { grid-auto-rows: 120px; }
+    }
+    @media (max-width: 540px) {
+      .tile { padding: 18px 20px; }
+      .tile-photo { padding: 0; }
+      .bento-stats { grid-auto-rows: 110px; }
+    }
+
+    /* ─── Section header ───────────────────────────────────── */
+    section { padding: 56px 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .section-head .num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--fg-1);
+    }
+    .section-head .rule { flex: 1; height: 1px; background: var(--line); }
+    .section-head .more {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    .section-head .more:hover { color: var(--fg-1); border-bottom-color: var(--fg-1); }
+
+    /* ─── About ────────────────────────────────────────────── */
+    .about-grid {
+      columns: 2;
+      column-gap: 56px;
+    }
+    .about-grid p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--fg-1);
+      margin: 0 0 18px;
+      max-width: 72ch;
+    }
+    .about-grid p .accent { color: var(--accent); font-weight: 500; }
+    .about-aside {
+      border-left: 1px solid var(--line);
+      padding-left: 28px;
+    }
+    .about-aside .lbl {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      margin: 0 0 10px;
+    }
+    .about-aside ul {
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+    }
+    .about-aside ul li {
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--fg-2);
+    }
+    .about-aside ul li:last-child { border-bottom: 0; }
+    .about-aside ul li b { color: var(--fg-1); font-weight: 500; }
+    .about-grid p { break-inside: avoid; }
+    @media (max-width: 720px) {
+      .about-grid { columns: 1; }
+      .about-grid p { max-width: none; }
+    }
+
+    /* ─── Career timeline ──────────────────────────────────── */
+    .timeline { display: flex; flex-direction: column; }
+    .tl-row {
+      display: grid;
+      grid-template-columns: 140px 24px 1fr;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line-soft);
+      align-items: flex-start;
+    }
+    .tl-row:first-child { padding-top: 0; }
+    .tl-row:last-child { border-bottom: 0; }
+    .tl-when {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      padding-top: 4px;
+    }
+    .tl-axis {
+      position: relative;
+      align-self: stretch;
+      display: flex;
+      justify-content: center;
+    }
+    .tl-axis::before {
+      content: '';
+      position: absolute;
+      top: 12px; bottom: -22px;
+      width: 1px;
+      background: var(--line);
+    }
+    .tl-row:last-child .tl-axis::before { bottom: 0; }
+    .tl-axis .dot {
+      position: relative;
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1.5px solid var(--fg-1);
+      margin-top: 8px;
+      z-index: 1;
+    }
+    .tl-row.current .tl-axis .dot {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(233, 75, 31, 0.16);
+    }
+    .tl-body h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      color: var(--fg-1);
+    }
+    .tl-body .org {
+      font-size: 14px;
+      color: var(--fg-2);
+      margin-top: 2px;
+    }
+    .tl-body p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--fg-2);
+      max-width: 56ch;
+    }
+    .tl-body .role-list {
+      margin: 12px 0 0; padding: 0; list-style: none;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px;
+    }
+    .tl-body .role-list li {
+      font-size: 13px; line-height: 1.45; color: var(--fg-2);
+      padding: 4px 0; border-bottom: 1px dotted var(--line);
+    }
+    .tl-body .role-list li b { color: var(--fg-1); font-weight: 500; }
+    .tl-divider {
+      display: grid;
+      grid-template-columns: 140px 24px 1fr;
+      gap: 20px;
+      align-items: center;
+      padding: 22px 0 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .tl-divider .tl-divider-label {
+      grid-column: 3;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    @media (max-width: 640px) {
+      .tl-row { grid-template-columns: 100px 16px 1fr; gap: 14px; }
+      .tl-body .role-list { grid-template-columns: 1fr; }
+      .tl-divider { grid-template-columns: 100px 16px 1fr; gap: 14px; }
+    }
+
+
+    /* ─── Videos ───────────────────────────────────────────── */
+    .video-rail-wrap { position: relative; }
+    .video-rail {
+      display: flex; gap: 16px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 4px 4px 22px; margin: 0 -4px;
+      scroll-behavior: smooth; scrollbar-width: thin;
+    }
+    .video-rail::-webkit-scrollbar { height: 8px; }
+    .video-rail::-webkit-scrollbar-track { background: #efefef; border-radius: 4px; }
+    .video-rail::-webkit-scrollbar-thumb { background: var(--fg-3); border-radius: 4px; }
+    .video-card {
+      flex: 0 0 calc((100% - 16px) / 2);
+      scroll-snap-align: start;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .video-card .frame {
+      position: relative; aspect-ratio: 16 / 9;
+      background: #111; border: 1px solid var(--line);
+      border-radius: var(--r-3); overflow: hidden;
+    }
+    .video-card .frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .frame.click-to-load { cursor: pointer; }
+    .frame.click-to-load img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .frame.click-to-load .play-btn {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.92); border: 1px solid var(--line);
+      display: block;
+    }
+    .frame.click-to-load .play-btn::after {
+      content: ""; position: absolute; left: 56%; top: 50%; transform: translate(-50%, -50%);
+      width: 0; height: 0; border-left: 14px solid var(--accent); border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+    }
+    .frame.click-to-load:hover .play-btn { background: #fff; }
+    .video-card .frame .yt-tag {
+      position: absolute; left: 10px; top: 10px;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+      background: rgba(0,0,0,0.65); color: #fff; padding: 3px 7px; border-radius: 3px;
+    }
+    .video-card h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--fg-1); }
+    .video-card .meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--fg-3); }
+    .rail-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--line);
+      display: grid; place-items: center; cursor: pointer; z-index: 2;
+    }
+    .rail-btn:hover { background: var(--surface-2); }
+    .rail-btn.prev { left: -20px; }
+    .rail-btn.next { right: -20px; }
+    .rail-btn svg { width: 16px; height: 16px; stroke: var(--fg-1); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 720px) {
+      .video-card { flex: 0 0 85%; }
+      .rail-btn { display: none; }
+    }
+
+    /* ─── Awards strip ─────────────────────────────────────── */
+    .award-list { display: flex; flex-direction: column; gap: 18px; }
+    .award-card {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 28px;
+      padding: 26px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: var(--r-3);
+      align-items: start;
+    }
+    .award-card.featured { border-color: var(--accent); }
+    .award-card .award-body { display: flex; flex-direction: column; gap: 12px; }
+    .award-card .award-eyebrow {
+      display: flex; align-items: center; gap: 10px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+    }
+    .award-card .award-eyebrow .place {
+      background: var(--accent); color: #fff;
+      padding: 3px 8px; border-radius: var(--r-pill); font-size: 10px;
+      white-space: nowrap;
+    }
+    .award-card .award-eyebrow > span:not(.place) { white-space: nowrap; }
+    .award-card h3 {
+      margin: 0; font-size: 24px; font-weight: 600;
+      letter-spacing: -0.02em; line-height: 1.15; color: var(--fg-1);
+    }
+    .award-card p { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--fg-2); }
+    .award-card p b { color: var(--fg-1); font-weight: 500; }
+    .award-card .award-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .award-card .award-tags span {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--fg-3);
+      border: 1px solid var(--line); padding: 4px 9px; border-radius: var(--r-pill);
+    }
+    .award-card .award-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+    .award-card .award-links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; text-decoration: none;
+      padding: 8px 14px; border: 1px solid var(--fg-1);
+      border-radius: var(--r-pill); color: var(--fg-1);
+      background: var(--bg);
+    }
+    .award-card .award-links a:hover { background: var(--fg-1); color: var(--bg); }
+    .award-card .award-links a.subtle { border-color: var(--line); color: var(--fg-2); }
+    .award-card .award-links a.subtle:hover { background: var(--surface-2); color: var(--fg-1); }
+    .award-card .award-media {
+      position: relative; border-radius: var(--r-3); overflow: hidden;
+      background: var(--surface-2); border: 1px solid var(--line);
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      align-self: stretch;
+    }
+    .award-card .award-media iframe { width: 100%; height: 100%; border: 0; display: block; position: absolute; inset: 0; }
+    .award-card .award-media .award-frame { position: absolute; inset: 0; border-radius: 0; border: 0; }
+    .award-card .award-media .award-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .award-card .award-media .img-grid {
+      position: absolute; inset: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--line);
+    }
+    .award-card .award-media .img-grid.img-stack {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 1fr;
+    }
+    .award-card .award-media .img-grid img {
+      width: 100%; height: 100%; object-fit: cover;
+      background: #fff; display: block;
+    }
+    .award-card .award-media.kaggle-grid {
+      display: flex; flex-direction: column; gap: 10px; padding: 22px;
+      align-items: stretch; justify-content: center;
+      aspect-ratio: auto;
+      min-height: 240px;
+    }
+    .award-card .award-media.kaggle-grid .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .award-card .award-media.kaggle-grid .stat {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: var(--r-3); padding: 14px;
+    }
+    .award-card .award-media.kaggle-grid .stat .n {
+      font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: var(--fg-1);
+    }
+    .award-card .award-media.kaggle-grid .stat .n .accent { color: var(--accent); }
+    .award-card .award-media.kaggle-grid .stat .l {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--fg-3); margin-top: 4px;
+    }
+    @media (max-width: 760px) {
+      .award-card { grid-template-columns: 1fr; gap: 20px; padding: 22px; }
+      .award-card .award-media { width: 100%; }
+      .award-card .award-media.kaggle-grid { display: none; }
+    }
+
+    /* ─── Footer ───────────────────────────────────────────── */
+    footer.site-foot {
+      border-top: 1px solid var(--line);
+      padding: 48px 0 64px;
+      background: var(--bg);
+    }
+    .foot-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: end;
+    }
+    .foot-mark img { display: block; height: 36px; width: auto; }
+    .foot-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .foot-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--fg-1);
+      text-decoration: none;
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+    }
+    .foot-links a:hover {
+      background: var(--fg-1);
+      color: var(--bg);
+      border-color: var(--fg-1);
+    }
+    .foot-links a svg { width: 16px; height: 16px; fill: currentColor; }
+    @media (max-width: 720px) {
+      .foot-grid { grid-template-columns: 1fr; }
+      .foot-links { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     STICKY NAV — wordmark · sections · prominent social pills
+     ════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="wordmark" aria-label="ilia.">
+      <img src="assets/wordmark.svg" alt="ilia.">
+    </a>
+    <div class="nav-sections">
+      <a href="#about">About</a>
+      <a href="#career">Career</a>
+      <a href="#competitions">Competitions</a>
+      <a href="#videos">Videos</a>
+      <a href="#projects">Projects</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-socials">
+      <a href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.18c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.4A3 3 0 0 0 .5 6.5C.1 8.4.1 12 .1 12s0 3.6.4 5.5a3 3 0 0 0 2.1 2.1c1.9.4 9.4.4 9.4.4s7.5 0 9.4-.4a3 3 0 0 0 2.1-2.1c.4-1.9.4-5.5.4-5.5s0-3.6-.4-5.5ZM9.7 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/larchenko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.28V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+      </a>
+      <a href="https://x.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77Z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+
+<!-- ════════════════════════════════════════════════════════════
+     HERO BENTO — name, photo, top achievements & stats
+     ════════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container">
+    <div class="bento">
+
+      <div class="bento-top">
+        <!-- Name + intro -->
+        <div class="tile tile-name">
+          <h1>Ilia<br>Larchenko<span class="accent">.</span></h1>
+          <p>Data Science Director at Agoda · Experimenting with AI and Robotics on the side · Successfully participating in ML competitions.</p>
+        </div>
+
+        <!-- Photo -->
+        <div class="tile tile-photo">
+          <img src="assets/portrait.jpg" alt="Ilia Larchenko">
+        </div>
+      </div>
+
+      <div class="bento-stats">
+
+        <!-- Years of experience -->
+        <div data-size="wide" class="tile tile-stat accent">
+          <span class="meta">Experience</span>
+          <div class="num"><span class="accent">14 years</span> · <span class="src">DS, ML &amp; AI</span></div>
+          <div class="sub">Leadership &amp; hands-on</div>
+        </div>
+
+        <!-- Kaggle TOP-20 -->
+        <a href="https://www.kaggle.com/ilialar" target="_blank" rel="noopener noreferrer" data-size="wide" class="tile tile-stat solid" style="text-decoration:none;">
+          <span class="meta">Kaggle</span>
+          <div class="num"><span class="accent">TOP-20</span> · <span class="src">globally</span></div>
+          <div class="sub">Competitions Master · 25 medals</div>
+        </a>
+
+        <!-- BEHAVIOR award -->
+        <a href="#competitions" data-size="wide" class="tile tile-stat" style="text-decoration:none;">
+          <span class="meta">🏆 NeurIPS 2025</span>
+          <div class="num"><span class="accent">1<span class="ord">st</span> place</span> · <span class="src">BEHAVIOR Challenge</span></div>
+          <div class="sub">Long-horizon household tasks · Stanford VL lab</div>
+        </a>
+
+        <!-- LeHome award -->
+        <a href="#competitions" data-size="wide" class="tile tile-stat" style="text-decoration:none;">
+          <span class="meta">🏆 ICRA 2026</span>
+          <div class="num"><span class="accent">1<span class="ord">st</span> place</span> · <span class="src">LeHome Challenge</span></div>
+          <div class="sub">Online round · RL + VLA pipeline</div>
+        </a>
+
+        <!-- GitHub stars -->
+        <a href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
+          <span class="meta">GitHub</span>
+          <div class="num"><span class="accent">800<span class="plus">+</span></span> · <span class="src">GitHub stars</span></div>
+          <div class="sub">Across open-source repos</div>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
+          <span class="meta">YouTube</span>
+          <div class="num"><span class="accent">6K<span class="plus">+</span></span> · <span class="src">YouTube subs</span></div>
+          <div class="sub">Deep robotics &amp; ML videos</div>
+        </a>
+
+        <!-- ARC podium -->
+        <a href="#competitions" class="tile tile-stat" style="text-decoration:none;">
+          <span class="meta">Kaggle 2020</span>
+          <div class="num"><span class="accent">3<span class="ord">rd</span> place</span> · <span class="src">ARC Challenge</span></div>
+          <div class="sub">Predecessor of ARC-AGI benchmark</div>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════
+     ABOUT
+     ════════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">01 /</span>
+      <h2>About</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="about-grid">
+      <p>I'm Ilia Larchenko — Director of Data Science at Agoda in Bangkok, with 14 years across DS, ML and analytics. My teams ship high-load production systems for pricing and bidding optimization, customer-behavior and LTV prediction, agentic AI services and other projects. In my free time I work on robotics, ML and AI side projects.</p>
+      <p>In the past I was top-20 globally on Kaggle, more recently I won 1st places in robotics competitions: BEHAVIOR-1K (NeurIPS 2025) and LeHome (online round, ICRA 2026).</p>
+      <p>I post videos on YouTube and ship code on GitHub. I like to share my knowledge and explain complex technical problems in a clear and simple way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     CAREER
+     ════════════════════════════════════════════════════════════ -->
+<section id="career">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">02 /</span>
+      <h2>Career</h2>
+      <span class="rule"></span>
+      <a class="more" href="https://www.linkedin.com/in/larchenko/" target="_blank" rel="noopener noreferrer">Full history on LinkedIn ↗</a>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row current">
+        <span class="tl-when">2020 — now</span>
+        <span class="tl-axis"><span class="dot"></span></span>
+        <div class="tl-body">
+          <h3>Director, Data Science</h3>
+          <p class="org">Agoda · Bangkok</p>
+          <p>Leading multiple DS/ML teams across pricing, bidding, LTV attribution, experimentation, FinTech, bot detection, and LLM agents.</p>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-when">2016 — 2020</span>
+        <span class="tl-axis"><span class="dot"></span></span>
+        <div class="tl-body">
+          <h3>Chief Innovation Officer</h3>
+          <p class="org">DOC+ · Moscow</p>
+          <p>Founded and led a 15-person DS/ML department at a health-tech startup. Built a pre-LLM medical chatbot symptom checker, electronic health record quality control and an automated doctor-dispatching system.</p>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-when">2011 — 2016</span>
+        <span class="tl-axis"><span class="dot"></span></span>
+        <div class="tl-body">
+          <h3>Earlier experience</h3>
+          <p class="org">Consulting · startups · enterprise</p>
+          <p>Five years across analytics, strategy, finance, business development and operations — from consulting to startups and corporates.</p>
+        </div>
+      </div>
+
+      <div class="tl-divider">
+        <span class="tl-divider-label">Education</span>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-when">2008 — 2014</span>
+        <span class="tl-axis"><span class="dot"></span></span>
+        <div class="tl-body">
+          <h3>M.Sc. Applied Physics &amp; Mathematics</h3>
+          <p class="org">Moscow Institute of Physics and Technology (MIPT)</p>
+          <p>Graduated with honors. Faculty of Control and Applied Mathematics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     COMPETITIONS
+     ════════════════════════════════════════════════════════════ -->
+<section id="competitions">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">03 /</span>
+      <h2>Competitions</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="award-list">
+
+      <article class="award-card featured">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place">🏆 1st place</span><span>ICRA · 2026 · online round</span></div>
+          <h3>LeHome Challenge</h3>
+          <p>1st place in the online round of the LeHome Challenge (ICRA 2026). The task was to train a bimanual robot in simulation to fold 4 different types of garments. I implemented the whole distributed RL pipeline from scratch, combining existing approaches with new ideas across model architecture, reward design, RL logic, and data collection.</p>
+          <div class="award-tags">
+            <span>ICRA 2026</span><span>Robotics</span><span>RL</span><span>VLA</span>
+          </div>
+          <div class="award-links">
+            <a class="subtle" href="https://lehome-challenge.com/" target="_blank" rel="noopener noreferrer">Challenge site ↗</a>
+          </div>
+        </div>
+        <div class="award-media">
+          <div class="frame click-to-load award-frame" data-yt-id="6B4X6_S9_uk" data-yt-title="LeHome Challenge — winning run">
+            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/6B4X6_S9_uk/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+            <span class="yt-tag">YT</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="award-card featured">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place">🏆 1st place</span><span>NeurIPS · 2025</span></div>
+          <h3>BEHAVIOR Challenge</h3>
+          <p>1st place in the BEHAVIOR Challenge at NeurIPS 2025 (from Stanford VL lab) — 50 long-horizon household tasks in the simulator. Our team of 3 trained a modified Pi0.5 VLA policy on demonstrations.</p>
+          <div class="award-tags">
+            <span>NeurIPS 2025</span><span>Robotics</span><span>VLA</span><span>Pi0.5</span>
+          </div>
+          <div class="award-links">
+            <a href="https://arxiv.org/abs/2512.06951" target="_blank" rel="noopener noreferrer">Tech report ↗</a>
+            <a href="https://github.com/IliaLarchenko/behavior-1k-solution" target="_blank" rel="noopener noreferrer">Code ↗</a>
+            <a class="subtle" href="https://behavior.stanford.edu/" target="_blank" rel="noopener noreferrer">Challenge site ↗</a>
+          </div>
+        </div>
+        <div class="award-media">
+          <div class="frame click-to-load award-frame" data-yt-id="ksOAlSHDKFE" data-yt-title="BEHAVIOR Challenge — winning solution">
+            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/ksOAlSHDKFE/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+            <span class="yt-tag">YT</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="award-card">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Kaggle Master</span><span>Kaggle</span></div>
+          <h3>Kaggle Competitions Master</h3>
+          <p><b>25 medals in competitions</b>, peak <b>top-20 globally</b> out of 150k+ users. Master tier in both Competitions and Notebooks.</p>
+          <div class="award-tags">
+            <span>Competitions Master</span><span>Notebooks Master</span><span>25 medals</span>
+          </div>
+          <div class="award-links">
+            <a href="https://www.kaggle.com/ilialar" target="_blank" rel="noopener noreferrer">Profile ↗</a>
+            <a class="subtle" href="https://www.kaggle.com/ilialar/competitions" target="_blank" rel="noopener noreferrer">Competitions ↗</a>
+            <a class="subtle" href="https://www.kaggle.com/ilialar/code" target="_blank" rel="noopener noreferrer">Notebooks ↗</a>
+          </div>
+        </div>
+        <div class="award-media kaggle-grid">
+          <div class="stat-row">
+            <div class="stat"><div class="n"><span class="accent">TOP-20</span></div><div class="l">Peak global</div></div>
+            <div class="stat"><div class="n">25</div><div class="l">COMPETITIONS MEDALS</div></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><div class="n">Master</div><div class="l">Competitions</div></div>
+            <div class="stat"><div class="n">Master</div><div class="l">Notebooks</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="award-card">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place">🥉 3rd place</span><span>Kaggle · 2020</span></div>
+          <h3>Abstraction &amp; Reasoning Challenge</h3>
+          <p>3rd place out of ~900 teams in the first ARC Kaggle competition — the predecessor of today's ARC-AGI benchmark. Working in a team of 2, we each developed independent solutions and the final submission merged both into a single symbolic solver: a small DSL of grid transformations plus search. No ML, AI or LLMs.</p>
+          <div class="award-tags">
+            <span>ARC</span><span>Kaggle</span><span>Program synthesis</span><span>DSL</span>
+          </div>
+          <div class="award-links">
+            <a href="https://github.com/IliaLarchenko/abstract_reasoning" target="_blank" rel="noopener noreferrer">Repo ↗</a>
+            <a class="subtle" href="https://www.kaggle.com/competitions/abstraction-and-reasoning-challenge" target="_blank" rel="noopener noreferrer">Competition ↗</a>
+          </div>
+        </div>
+        <div class="award-media">
+          <div class="img-grid img-stack">
+            <img src="assets/arc-train11.png" alt="ARC training task" loading="lazy">
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     VIDEOS
+     ════════════════════════════════════════════════════════════ -->
+<section id="videos">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">04 /</span>
+      <h2>Videos</h2>
+      <span class="rule"></span>
+      <a class="more" href="https://www.youtube.com/@ilialarchenko/videos" target="_blank" rel="noopener noreferrer">Channel · @ilialarchenko ↗</a>
+    </div>
+
+    <div class="video-rail-wrap">
+      <button class="rail-btn prev" type="button" aria-label="Previous" data-rail-dir="-1">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="rail-btn next" type="button" aria-label="Next" data-rail-dir="1">
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+      <div class="video-rail" id="videoRail">
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="xl9yCXxjV_A"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/xl9yCXxjV_A/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="J4wpO0EdCZs"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/J4wpO0EdCZs/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="8dZUOo5xWFw"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/8dZUOo5xWFw/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="ejk6-ffDXFw"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/ejk6-ffDXFw/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="QgGhK1LaUe8"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/QgGhK1LaUe8/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="DeBLc2D6bvg"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/DeBLc2D6bvg/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="lJ6PH--el54"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/lJ6PH--el54/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="6oZe_tKE3YA"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/6oZe_tKE3YA/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="EmpQQd7jRqs"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/EmpQQd7jRqs/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     PROJECTS
+     ════════════════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">05 /</span>
+      <h2>Other pet projects</h2>
+      <span class="rule"></span>
+      <a class="more" href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer">All repos on GitHub ↗</a>
+    </div>
+
+    <div class="award-list">
+
+      <article class="award-card">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Repo</span><span>Behavior cloning</span></div>
+          <h3>dot_policy</h3>
+          <p>Decoder-Only Transformer behavior-cloning policy. Sometimes <b>100× smaller</b> than SOTA, no diffusion, no tokenization, no RL — very simple, but beats the prior best on PushT and ALOHA Insert.</p>
+          <div class="award-tags">
+            <span>BC</span><span>Transformer</span><span>PushT</span><span>ALOHA</span>
+          </div>
+          <div class="award-links">
+            <a href="https://github.com/IliaLarchenko/dot_policy" target="_blank" rel="noopener noreferrer">Code ↗</a>
+          </div>
+        </div>
+        <div class="award-media">
+          <div class="frame click-to-load award-frame" data-yt-id="NlUh5KH1-uU" data-yt-title="dot_policy — demo">
+            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/NlUh5KH1-uU/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+            <span class="yt-tag">YT</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="award-card">
+        <div class="award-body">
+          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Repo</span><span>LLM + robotics</span></div>
+          <h3>robot_MCP</h3>
+          <p>A <b>Model Context Protocol</b> server for the SO-ARM100 low-cost robot arm. Lets an LLM drive the arm directly through tool calls — no separate robotics policy required.</p>
+          <div class="award-tags">
+            <span>MCP</span><span>SO-ARM100</span><span>Agents</span><span>LLM</span>
+          </div>
+          <div class="award-links">
+            <a href="https://github.com/IliaLarchenko/robot_MCP" target="_blank" rel="noopener noreferrer">Code ↗</a>
+            <a class="subtle" href="https://www.youtube.com/watch?v=EmpQQd7jRqs" target="_blank" rel="noopener noreferrer">Detailed video ↗</a>
+          </div>
+        </div>
+        <div class="award-media">
+          <div class="frame click-to-load award-frame" data-yt-id="_unef17sUAE" data-yt-title="robot_MCP — short demo">
+            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/_unef17sUAE/hqdefault.jpg" alt="" loading="lazy">
+            <span class="play-btn" aria-hidden="true"></span>
+            <span class="yt-tag">YT</span>
+          </div>
+        </div>
+      </article>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER — wordmark + every link, again
+     ════════════════════════════════════════════════════════════ -->
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-mark">
+        <img src="assets/wordmark.svg" alt="ilia.">
+      </div>
+      <div class="foot-links">
+        <a href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.18c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.4A3 3 0 0 0 .5 6.5C.1 8.4.1 12 .1 12s0 3.6.4 5.5a3 3 0 0 0 2.1 2.1c1.9.4 9.4.4 9.4.4s7.5 0 9.4-.4a3 3 0 0 0 2.1-2.1c.4-1.9.4-5.5.4-5.5s0-3.6-.4-5.5ZM9.7 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/larchenko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.28V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+        <a href="https://x.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Video rail navigation + click-to-load -->
+<script>
+  (function() {
+    var rail = document.getElementById('videoRail');
+    if (rail) {
+      document.querySelectorAll('[data-rail-dir]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var dir = parseInt(btn.getAttribute('data-rail-dir'), 10) || 1;
+          rail.scrollBy({ left: dir * Math.round(rail.clientWidth * 0.85), behavior: 'smooth' });
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var frames = document.querySelectorAll('.frame.click-to-load');
+      frames.forEach(function(frame) {
+        frame.addEventListener('click', function() {
+          if (frame.dataset.loaded) return;
+          var id = frame.getAttribute('data-yt-id');
+          var title = frame.getAttribute('data-yt-title') || 'YouTube video';
+          var startAttr = frame.getAttribute('data-yt-start');
+          var startParam = startAttr ? '&start=' + encodeURIComponent(startAttr) : '';
+          
+          var iframe = document.createElement('iframe');
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          iframe.title = title;
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?rel=0&modestbranding=1&playsinline=1&autoplay=1' + startParam;
+          
+          frame.replaceChildren(iframe);
+          frame.dataset.loaded = '1';
+          frame.classList.remove('click-to-load');
+        });
+      });
+    });
+  })();
+</script>
+
+
+</body>
+</html>

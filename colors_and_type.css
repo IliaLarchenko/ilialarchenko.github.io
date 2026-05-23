@@ -1,0 +1,193 @@
+/* ============================================================
+   ILIA LARCHENKO — DESIGN SYSTEM TOKENS
+   Minimalistic personal brand for robotics / ML side projects.
+   ============================================================ */
+
+/* No @font-face, no @import. The system uses fonts that already live on every
+   visitor's device — zero downloads, zero third-party requests, zero privacy
+   leaks. The wordmark (assets/wordmark.svg) is rendered as outlined paths so
+   it stays visually consistent without a font dependency. */
+
+:root {
+  /* ─── Color: surfaces ────────────────────────────────────── */
+  --bg:           #FAFAFA;   /* page background, off-white */
+  --surface:      #FFFFFF;   /* cards, code blocks */
+  --surface-2:    #F2F2F2;   /* inset surfaces, subtle wells */
+
+  /* ─── Color: foreground ──────────────────────────────────── */
+  --fg-1:         #111111;   /* primary text, headings */
+  --fg-2:         #555555;   /* body / secondary */
+  --fg-3:         #8A8A8A;   /* tertiary, captions, meta */
+  --fg-4:         #B8B8B8;   /* placeholder, disabled */
+
+  /* ─── Color: lines ───────────────────────────────────────── */
+  --line:         #E5E5E5;   /* default border / divider */
+  --line-strong:  #111111;   /* emphasis underline / rule */
+  --line-soft:    #EFEFEF;   /* faintest divider */
+
+  /* ─── Color: single accent (use sparingly) ───────────────── */
+  --accent:       #E94B1F;   /* warm "robotic" orange-red */
+  --accent-soft:  #FCE8E1;   /* accent tint background */
+
+  /* ─── Color: semantic ────────────────────────────────────── */
+  --ok:           #1F7A4D;   /* success / ✅ */
+  --warn:         #B26900;   /* warning */
+  --err:          #B3261E;   /* error / ❌ */
+  --link:         #111111;   /* links use underline, not color */
+
+  /* ─── Type: families — 100% system, zero downloads ────────── */
+  /* Each OS gets its own purpose-built screen font (SF Pro on Apple,
+     Segoe UI on Windows, Roboto on Android), with Arial as the universal
+     fallback. The wordmark is the only branded letterform — baked as
+     paths in assets/wordmark.svg, so it looks identical everywhere. */
+  --font-sans:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* ─── Type: scale (modest, ~1.2 ratio) ───────────────────── */
+  --t-xs:    12px;   /* meta, labels */
+  --t-sm:    14px;   /* small body */
+  --t-base:  16px;   /* body */
+  --t-md:    18px;   /* lead */
+  --t-lg:    22px;   /* h4 / card titles */
+  --t-xl:    28px;   /* h3 */
+  --t-2xl:   36px;   /* h2 */
+  --t-3xl:   48px;   /* h1 */
+  --t-4xl:   64px;   /* display */
+
+  /* ─── Type: weights ──────────────────────────────────────── */
+  --w-regular: 400;
+  --w-medium:  500;
+  --w-semi:    600;
+  --w-bold:    700;
+
+  /* ─── Type: leading & tracking ───────────────────────────── */
+  --lh-tight:  1.15;
+  --lh-snug:   1.30;
+  --lh-base:   1.55;
+  --lh-loose:  1.70;
+  --tr-tight:  -0.02em;   /* display headings */
+  --tr-base:    0;
+  --tr-wide:    0.06em;   /* eyebrow / meta caps */
+
+  /* ─── Spacing (4px grid) ─────────────────────────────────── */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;
+  --s-7:  48px;
+  --s-8:  64px;
+  --s-9:  96px;
+
+  /* ─── Radii (small; mostly square) ───────────────────────── */
+  --r-0: 0px;
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 8px;     /* cards, badges */
+  --r-pill: 999px;
+
+  /* ─── Borders ────────────────────────────────────────────── */
+  --bd: 1px solid var(--line);
+  --bd-strong: 1px solid var(--fg-1);
+
+  /* ─── Shadow (one level only — barely there) ─────────────── */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  /* ─── Motion ─────────────────────────────────────────────── */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --ease: cubic-bezier(0.2, 0.0, 0.2, 1.0);
+}
+
+/* ============================================================
+   SEMANTIC STYLES — apply these directly via utility classes
+   ============================================================ */
+
+.ds-h1, h1.ds {
+  font-family: var(--font-display);
+  font-size: var(--t-3xl);
+  font-weight: var(--w-semi);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  color: var(--fg-1);
+}
+
+.ds-h2, h2.ds {
+  font-family: var(--font-display);
+  font-size: var(--t-2xl);
+  font-weight: var(--w-semi);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  color: var(--fg-1);
+}
+
+.ds-h3, h3.ds {
+  font-family: var(--font-sans);
+  font-size: var(--t-xl);
+  font-weight: var(--w-semi);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+
+.ds-h4, h4.ds {
+  font-family: var(--font-sans);
+  font-size: var(--t-lg);
+  font-weight: var(--w-semi);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+
+.ds-lead {
+  font-family: var(--font-sans);
+  font-size: var(--t-md);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-base);
+  color: var(--fg-2);
+}
+
+.ds-body, p.ds {
+  font-family: var(--font-sans);
+  font-size: var(--t-base);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-base);
+  color: var(--fg-1);
+}
+
+.ds-small {
+  font-family: var(--font-sans);
+  font-size: var(--t-sm);
+  line-height: var(--lh-base);
+  color: var(--fg-2);
+}
+
+.ds-meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.ds-code, code.ds {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--surface-2);
+  border: var(--bd);
+  padding: 1px 6px;
+  border-radius: var(--r-2);
+  color: var(--fg-1);
+}
+
+.ds-link {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.ds-link:hover { opacity: 0.6; }
