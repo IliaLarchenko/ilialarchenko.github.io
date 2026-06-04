@@ -270,6 +270,19 @@
     .tile.accent .num .src, .tile.solid .num .src { color: rgba(255,255,255,0.85); }
     .tile-stat .num .unit { font-size: 0.5em; font-weight: 500; margin-left: 6px; letter-spacing: 0; opacity: 0.8; }
 
+    /* LeHome tile — rounds in smaller accent font, then · LeHome Challenge */
+    .tile-lehome .num .rounds-inline {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+    }
+    .tile-lehome .num .rounds-inline .bar {
+      color: var(--fg-3);
+      font-weight: 400;
+      margin: 0 3px;
+    }
+
       @media (max-width: 720px) {
       .bento-top { grid-template-columns: 1fr; }
       .tile-name { min-height: 0; padding: 24px; }
@@ -738,11 +751,11 @@
           <div class="sub">Long-horizon household tasks · Stanford VL lab</div>
         </a>
 
-        <!-- LeHome award -->
-        <a href="#competitions" data-size="wide" class="tile tile-stat" style="text-decoration:none;">
+        <!-- LeHome award — mirrors BEHAVIOR; rounds (small) · LeHome Challenge -->
+        <a href="#competitions" data-size="wide" class="tile tile-stat tile-lehome" style="text-decoration:none;">
           <span class="meta">🏆 ICRA 2026</span>
-          <div class="num"><span class="accent">1<span class="ord">st</span> place</span> · <span class="src">LeHome Challenge</span></div>
-          <div class="sub">Online round · RL + VLA pipeline</div>
+          <div class="num"><span class="accent rounds-inline">1<span class="ord">st</span> Online <span class="bar">|</span> 2<span class="ord">nd</span> Offline</span> · <span class="src">LeHome Challenge</span></div>
+          <div class="sub">Bimanual garment folding · RL + VLA</div>
         </a>
 
         <!-- GitHub stars -->
