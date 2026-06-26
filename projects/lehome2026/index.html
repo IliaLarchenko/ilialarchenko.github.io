@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Learning to Fold — LeHome Challenge 2026 · Ilia Larchenko</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prizewinning solution at the LeHome Challenge (ICRA 2026): 1st place in the simulation round, 2nd in the real-world final. A single VLA policy that folds laundry and judges its own success.">
+  <meta name="author" content="Ilia Larchenko">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FAFAFA">
+  <link rel="canonical" href="https://ilialarchenko.com/projects/lehome2026/">
+
+  <!-- ═══ Open Graph ═══ -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Ilia Larchenko">
+  <meta property="og:title" content="Learning to Fold — LeHome Challenge 2026">
+  <meta property="og:description" content="1st place online · 2nd real-world. Teaching a two-armed robot to fold laundry with a single self-judging VLA policy.">
+  <meta property="og:url" content="https://ilialarchenko.com/projects/lehome2026/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://ilialarchenko.com/assets/og-image.png">
+
+  <!-- ═══ Twitter / X Card ═══ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@IliaLarchenko">
+  <meta name="twitter:creator" content="@IliaLarchenko">
+  <meta name="twitter:title" content="Learning to Fold — LeHome Challenge 2026">
+  <meta name="twitter:description" content="1st place online · 2nd real-world. A single self-judging VLA policy that folds laundry.">
+  <meta name="twitter:image" content="https://ilialarchenko.com/assets/og-image.png">
+
+  <!-- ═══ Shared design tokens & assets (reused from site root) ═══ -->
+  <link rel="stylesheet" href="../../colors_and_type.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;}
+    html{scroll-behavior:smooth;scroll-padding-top:76px;}
+    body{margin:0;background:var(--bg);color:var(--fg-1);font-family:var(--font-sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    a{color:inherit;}
+    img{max-width:100%;}
+    ::selection{background:#FCE8E1;}
+
+    /* hover micro-interactions (design-system: fades/opacity, surface-2 fills) */
+    .social:hover{background:var(--fg-1) !important;color:var(--bg) !important;border-color:var(--fg-1) !important;}
+    .nav-links a:hover{opacity:0.6;}
+    .btn-dark:hover{opacity:0.85;}
+    .btn-outline:hover{background:var(--fg-1) !important;color:var(--bg) !important;}
+    .btn-ghost:hover{background:var(--surface-2) !important;color:var(--fg-1) !important;}
+    .dlink:hover{opacity:0.6;}
+    .real-rail-btn:hover{background:var(--surface-2) !important;}
+
+    @media (max-width:860px){
+      .nav-links{display:none !important;}
+      .wrap{padding-left:20px !important;padding-right:20px !important;}
+      .receipts{grid-template-columns:repeat(2,1fr) !important;}
+      .stack-m{grid-template-columns:1fr !important;gap:28px !important;}
+      .footer-grid{grid-template-columns:1fr !important;gap:24px !important;}
+      .footer-social{justify-content:flex-start !important;}
+    }
+    @media (max-width:540px){
+      .wrap{padding-left:16px !important;padding-right:16px !important;}
+      .hero-h1{font-size:32px !important;line-height:1.05 !important;}
+      .receipts{gap:10px !important;}
+      .real-rail-btn{display:none !important;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav style="position:sticky;top:0;z-index:50;background:rgba(250,250,250,0.92);backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:24px;height:64px;">
+    <a href="https://ilialarchenko.com/" target="_blank" rel="noopener noreferrer" aria-label="ilia." style="flex:0 0 auto;"><img src="../../assets/wordmark.svg" alt="ilia." style="display:block;height:28px;width:auto;"></a>
+    <div class="nav-links" style="display:flex;gap:20px;margin-left:8px;">
+      <a href="#challenge" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Challenge</a>
+      <a href="#architecture" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Architecture</a>
+      <a href="#training" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Training</a>
+      <a href="#results" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Results</a>
+      <a href="#real" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Sim-to-real</a>
+      <a href="#cite" style="font-size:14px;color:var(--fg-2);text-decoration:none;">Cite</a>
+    </div>
+    <div style="flex:1;"></div>
+    <div style="display:flex;gap:6px;">
+      <a class="social" href="https://github.com/IliaLarchenko/lehome_solution" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.18c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+      <a class="social" href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.4A3 3 0 0 0 .5 6.5C.1 8.4.1 12 .1 12s0 3.6.4 5.5a3 3 0 0 0 2.1 2.1c1.9.4 9.4.4 9.4.4s7.5 0 9.4-.4a3 3 0 0 0 2.1-2.1c.4-1.9.4-5.5.4-5.5s0-3.6-.4-5.5ZM9.7 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg></a>
+      <a class="social" href="https://www.linkedin.com/in/larchenko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.28V1.72C24 .77 23.21 0 22.22 0Z"/></svg></a>
+      <a class="social" href="https://x.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" style="width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77Z"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+
+<!-- ══════════ HERO ══════════ -->
+<header style="padding:72px 0 16px;">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;text-align:center;">
+    <div style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:22px;">1st place online &middot; 2nd place real-world &middot; LeHome Challenge, ICRA 2026</div>
+    <h1 class="hero-h1" style="margin:0 auto;font-size:clamp(38px,6vw,68px);font-weight:600;line-height:0.98;letter-spacing:-0.035em;color:var(--fg-1);max-width:18ch;">Prizewinning solution of the LeHome Challenge<span style="color:var(--accent);">.</span></h1>
+    <p style="margin:24px auto 0;font-size:19px;line-height:1.55;color:var(--fg-2);max-width:60ch;">I taught a two-armed robot to fold laundry &mdash; winning the simulation round of the LeHome Challenge @ ICRA 2026, and taking 2nd place on a real robot.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:30px;">
+      <a class="btn-dark" href="https://arxiv.org/abs/2606.27163" target="_blank" rel="noopener noreferrer" style="font-size:14px;font-weight:500;padding:10px 18px;border:1px solid var(--fg-1);border-radius:999px;color:var(--bg);background:var(--fg-1);text-decoration:none;">Read the tech report&nbsp;↗</a>
+      <a class="btn-outline" href="https://github.com/IliaLarchenko/lehome_solution" target="_blank" rel="noopener noreferrer" style="font-size:14px;font-weight:500;padding:10px 18px;border:1px solid var(--fg-1);border-radius:999px;color:var(--fg-1);background:var(--bg);text-decoration:none;">Code&nbsp;↗</a>
+      <a class="btn-ghost" href="https://huggingface.co/IliaLarchenko/lehome_sim" target="_blank" rel="noopener noreferrer" style="font-size:14px;font-weight:500;padding:10px 18px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2);background:var(--bg);text-decoration:none;">Models&nbsp;↗</a>
+      <a class="btn-ghost" href="https://lehome-challenge.com/" target="_blank" rel="noopener noreferrer" style="font-size:14px;font-weight:500;padding:10px 18px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2);background:var(--bg);text-decoration:none;">Challenge&nbsp;↗</a>
+    </div>
+  </div>
+
+  <!-- full-bleed hero video -->
+  <div class="wrap" style="max-width:1080px;margin:40px auto 0;padding:0 28px;">
+    <div data-yt-id="_LBU3ue0CpU" data-yt-loop="1" style="position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+      <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/_LBU3ue0CpU/maxresdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <span style="position:absolute;left:14px;top:14px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">HERO VIDEO</span>
+      <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.94);"></span>
+      <span style="position:absolute;left:calc(50% + 4px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:20px solid var(--accent);border-top:13px solid transparent;border-bottom:13px solid transparent;"></span>
+      <span style="position:absolute;left:0;right:0;bottom:0;padding:14px 16px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:rgba(255,255,255,0.8);background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);">Montage &middot; all four garment types folded autonomously</span>
+    </div>
+  </div>
+
+  <!-- receipts ribbon -->
+  <div class="wrap" style="max-width:1080px;margin:12px auto 0;padding:0 28px;">
+    <div class="receipts" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+      <div style="background:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:20px 22px;">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Online round</div>
+        <div style="font-size:30px;font-weight:600;letter-spacing:-0.02em;color:#fff;margin-top:14px;line-height:1;">1<span style="font-size:0.6em;vertical-align:0.4em;">st</span> <span style="font-size:0.5em;font-weight:500;color:rgba(255,255,255,0.85);">of 62 teams</span></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px;">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);">Overall success</div>
+        <div style="font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);margin-top:14px;line-height:1;">79.63<span style="font-size:0.5em;font-weight:500;color:var(--fg-2);">%</span></div>
+      </div>
+      <div style="background:var(--fg-1);border:1px solid var(--fg-1);border-radius:8px;padding:20px 22px;">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.65);">Real-world final</div>
+        <div style="font-size:30px;font-weight:600;letter-spacing:-0.02em;color:#fff;margin-top:14px;line-height:1;">2<span style="font-size:0.6em;vertical-align:0.4em;">nd</span> <span style="font-size:0.5em;font-weight:500;color:rgba(255,255,255,0.85);">place</span></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px;">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);">Final-round score</div>
+        <div style="font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);margin-top:14px;line-height:1;"><span style="color:var(--accent);">865</span> <span style="font-size:0.5em;font-weight:500;color:var(--fg-2);">/ 1080</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ 01 · CHALLENGE ══════════ -->
+<section id="challenge" style="padding:56px 0;border-top:1px solid var(--line);margin-top:48px;">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">01 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">The challenge</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The task of the <b>LeHome Challenge</b> (ICRA 2026) was to train a robot to fold four types of clothes &mdash; long-sleeve top, short-sleeve top, long pants, shorts &mdash; using cheap <b>SO-ARM101</b> hardware, first in simulation (round 1), then on a real robot (round 2). The setup is bimanual: two 6-DOF arms, three RGB cameras, a 12-dimensional joint action space. Success is scored differently in the two rounds: in simulation it is binary and automatic &mdash; specific garment keypoints must end up far from or close to each other &mdash; while in the real round a jury decides, and partial success counts.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">Garment folding has been solved before, by several groups. What made this particular competition hard was the combination of constraints: low-precision, cheap hardware; the specifics of simulating highly deformable objects; four garment types with the <b style="color:var(--fg-1);">category hidden at evaluation time</b>; and, in the sim-to-real round, no access at all to the actual evaluation robot. The point was not a one-off demo &mdash; it was a policy that folds <b style="color:var(--fg-1);">consistently</b> and maximizes success rate over many trials.</p>
+    </div>
+
+    <figure style="margin:32px 0 0;">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/garments_sim.png" alt="The four garment types in simulation" style="width:100%;display:block;border-radius:4px;"></div>
+      <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">The four garment types from the overhead camera, in the organizers' simulation dataset: long-sleeve top, short-sleeve top, long pants, shorts.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ 02 · MODEL ARCHITECTURE ══════════ -->
+<section id="architecture" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">02 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Model architecture</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The policy is a <a class="dlink" href="https://www.pi.website/blog/pi05" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--fg-3);">&pi;<sub>0.5</sub></a>-based vision-language-action model, but instead of using the raw original policy I started from the version my team developed for our winning solution in <a class="dlink" href="https://robot-learning-collective.github.io/winning-behavior-1k-challenge" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--fg-3);">BEHAVIOR-1K</a>, then added extra tweaks. It is a single policy for all four garment types, trained jointly.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 14px;">On top of the backbone I added, among other things:</p>
+      <ul style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;padding-left:1.1em;list-style:none;">
+        <li style="margin-bottom:8px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">auxiliary prediction heads</b> that make the policy partly its own value function: a single query token feeds cheap linear heads that, from the same forward pass, predict success probability, task completion, garment type, and &mdash; 30 frames ahead &mdash; the keypoint distances that define success plus a Q-function residual;</li>
+        <li style="margin-bottom:8px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>a <b style="color:var(--fg-1);">garment-type input token</b>, with the type inferred at the start of each episode since it is hidden at evaluation;</li>
+        <li style="margin-bottom:8px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">advantage conditioning</b> (the RECAP style) plus multi-signal AdaRMS conditioning, so the advantage and garment signals reach every layer of the action expert;</li>
+        <li style="margin-bottom:8px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">exclusive self-attention</b> across the VLM and the action expert;</li>
+        <li style="margin-bottom:0;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">keypoint-distance and future-prediction heads</b> as a very cheap world-model substitute &mdash; predicting the few numbers that matter instead of whole future frames.</li>
+      </ul>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">Most of these were never properly ablated. This was a competition, not a controlled study, so I share the details for reference without claiming which were actually critical.</p>
+    </div>
+
+    <figure style="margin:28px 0 0;">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/policy_schema.svg" alt="The policy architecture and its prediction heads" style="width:100%;display:block;border-radius:4px;"></div>
+      <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">One model picks the next action chunk and, from the same forward pass, predicts its own success, progress, garment type, and a few task-relevant future quantities.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ 03 · SELF-IMPROVING LOOP ══════════ -->
+<section id="training" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">03 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">A reinforcement learning loop</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+
+    <!-- AWR + RECAP, toy figure on the right -->
+    <div class="stack-m" style="display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;">
+      <div>
+        <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The organizers provided a very clean, scripted original dataset. Behavior cloning on top of it works, but the resulting policy isn't robust enough. To improve it, I use a combination of two related RL methods &mdash; <b>AWR</b> and <b>RECAP</b>. The resulting policy stays on the same action manifold, but completes the tasks with much higher robustness.</p>
+        <p style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0;">
+          <b style="color:var(--fg-1);"><a class="dlink" href="https://xbpeng.github.io/projects/AWR/index.html" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--fg-3);">AWR</a></b> weights the training data toward high-advantage frames &mdash; applied through <i>sampling</i> rather than the loss, so good frames are simply loaded more often.<br><br>
+          <b style="color:var(--fg-1);"><a class="dlink" href="https://www.pi.website/blog/pistar06" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--fg-3);">RECAP</a></b> feeds the advantage in as a conditioning <i>input</i>, in effect telling the model to &ldquo;predict good actions only&rdquo; &mdash; which also unlocks classifier-free guidance (CFG) at inference.
+        </p>
+      </div>
+      <figure style="margin:0;">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/awr_recap.png" alt="Toy illustration of AWR and RECAP shifting the action distribution" style="width:100%;display:block;border-radius:4px;"></div>
+        <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">Toy picture: AWR shifts mass toward the good mode, RECAP conditioning selects the positive-advantage slice. Doing both moves the policy even further toward the high-advantage actions.</figcaption>
+      </figure>
+    </div>
+
+    <!-- async infra -->
+    <div style="margin-top:44px;">
+      <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:0 0 14px;">The asynchronous RL loop</h3>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 14px;">To run this I built an asynchronous reinforcement-learning loop, with every machine coordinating only through the Hugging Face Hub:</p>
+      <ul style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;padding-left:1.1em;list-style:none;">
+        <li style="margin-bottom:10px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>One <b style="color:var(--fg-1);">training machine (1&times; H200)</b> trains continuously on all available data, recomputing advantages across every rollout dataset before each iteration and shipping a fresh checkpoint roughly every 40 minutes.</li>
+        <li style="margin-bottom:10px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>One or more <b style="color:var(--fg-1);">rollout machines</b> pull the latest checkpoint and collect as many new rollouts as possible, using several strategies &mdash; random, curriculum, success-replay, hard-mining.</li>
+        <li style="margin-bottom:0;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>When needed, a <b style="color:var(--fg-1);">human operator</b> collects more data by hand &mdash; either fresh teleop rollouts or automatically-detected hard cases, for efficient <a class="dlink" href="https://arxiv.org/abs/1011.0686" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--fg-3);">DAgger</a>-style correction.</li>
+      </ul>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">There are no synchronization barriers: the trainer trains on whatever data has arrived, the workers collect with whatever checkpoint is newest. Scaling up data collection is just turning on another machine.</p>
+    </div>
+
+    <figure style="margin:28px 0 0;">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/flywheel.svg" alt="The asynchronous training and rollout loop through the Hugging Face Hub" style="width:100%;display:block;border-radius:4px;"></div>
+      <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">A trainer, any number of rollout machines, and a human correction station &mdash; all coordinating through the Hub, with nothing blocking on anything else.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ 04 · REWARD ══════════ -->
+<section id="reward" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">04 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Reward &amp; advantage</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">Binary success is far too sparse for efficient RL: early actions get almost no signal. So I densify it with a multi-layer reward and advantage computation that combines several signals:</p>
+      <ul style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;padding-left:1.1em;list-style:none;">
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">objective task progress</b> from the challenge's own keypoint checkpoints (with all reward withdrawn on failure, so the episode return stays binary);</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">success-probability predictions</b>, used as a value baseline;</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">completion-percentage predictions</b>, a progress signal that stays stable as the policy evolves;</li>
+        <li style="margin-bottom:0;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">relative success across garments</b>, which stale rollouts fall back on as their own predictions go out of date.</li>
+      </ul>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">Everything is aggregated with GAE into a per-frame advantage. The result is over-engineered and could probably be simplified &mdash; but I think these are the right building blocks.</p>
+    </div>
+
+    <!-- vertical advantage-overlay demo -->
+    <div class="stack-m" style="display:grid;grid-template-columns:300px 1fr;gap:36px;align-items:center;margin-top:44px;">
+      <div data-yt-id="90D9I7UzMsw" data-yt-portrait="1" style="position:relative;width:300px;max-width:100%;aspect-ratio:8/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+        <img src="figures/debug_overlay.png" alt="Rollout debug overlay with live predictions" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+        <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">DEMO VIDEO</span>
+        <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.94);"></span>
+        <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;"></span>
+      </div>
+      <div>
+        <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:0 0 12px;">Example of a rollout with reward overlay</h3>
+        <p style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0;">Every rollout is recorded with a debug overlay printing the model's own live predictions on top of the three camera feeds: success probability (<b style="color:var(--fg-1);">S</b>), advantage (<b style="color:var(--fg-1);">A</b>), reward (<b style="color:var(--fg-1);">R</b>), completion (<b style="color:var(--fg-1);">C</b>), and time-to-completion (<b style="color:var(--fg-1);">T</b>). Those are exactly the signals the training loop uses to decide which frames to learn from &mdash; and they are predicted and saved <i>at collection time</i>, on-policy, so they are never re-estimated by a later, drifted model.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 · INFERENCE ══════════ -->
+<section id="inference" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">05 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Inference-time optimization</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">After the policy is trained, there is a lot of room for inference-time optimization. My policy supports the following inference-time hyperparameters:</p>
+      <ul style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;padding-left:1.1em;list-style:none;">
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Execution length</b> &mdash; how many of the 30 predicted actions to run before re-planning against a fresh observation.</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Playback speed</b> &mdash; a time-stretch of the executed actions, so the arms move faster or slower.</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Inpainting overlap</b> &mdash; how long the tail of the previous chunk softly anchors the next one before it is freed to self-correct.</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Guidance scale</b> &mdash; how hard classifier-free guidance amplifies the advantage conditioning. It converged surprisingly high (7&ndash;9).</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Noise temperature</b> &mdash; scales the initial flow-matching noise to concentrate candidates nearer the distribution mode.</li>
+        <li style="margin-bottom:0;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">Best-of-N</b> &mdash; draw N candidate chunks from the same prefix and execute the one the Q-head scores highest.</li>
+      </ul>
+      <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:32px 0 12px;">Tuning with Thompson sampling</h3>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;">A full grid search over all of these would be far too slow, so I tune them <b style="color:var(--fg-1);">online, during rollout collection</b>, with a per-parameter Thompson-sampling bandit. Simply put: for each rollout I pick a random combination of hyperparameters, and the higher the success of any parameter value, the higher its probability of being picked again in future rollouts. The posteriors decay every iteration so the bandit tracks the moving policy rather than its whole history, and once they settle the best configuration per garment type is frozen for the final run. Beyond free hyperparameter tuning, this also adds free exploration &mdash; every parameter slightly changes the dynamics of the rollouts.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">The results of this convergence work as a cheap replacement for an ablation study, and let me draw a few conclusions: CFG consistently converged to high values &mdash; far higher than my original expectation of ~2; best-of-N chunk selection matters, but N&nbsp;=&nbsp;2&ndash;3 is enough; and constant replanning every ~5 steps works better than executing the full 30-step chunk; and a noise temperature slightly below 1 for the flow-matching noise is beneficial (presumably it removes outliers while keeping enough action diversity).</p>
+    </div>
+
+    <figure style="margin:32px 0 0;">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/inference_bandit.png" alt="Thompson-sampling posteriors for two inference parameters" style="width:100%;display:block;border-radius:4px;"></div>
+      <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">Converged arm posteriors for short pants. Each curve is one arm's probability of beating the per-type baseline &mdash; a curve shifted right is a value the bandit currently prefers.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ 06 · RESULTS ══════════ -->
+<section id="results" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">06 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Online-round results</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 24px;">I solo-won the first simulation round, finishing <b>1st out of 62 teams</b>. My final result is a <b>79.63%</b> success rate &mdash; <b style="color:var(--accent);">6.1 points</b> higher than second place &mdash; with the top score on three of the four garment types. The final score is computed over 80 rollouts (including both seen and unseen garments), 10 episodes each.</p>
+    </div>
+
+    <!-- leaderboard -->
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:560px;">
+        <thead>
+          <tr style="border-bottom:1.5px solid var(--fg-1);">
+            <th style="text-align:left;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">#</th>
+            <th style="text-align:left;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Team</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Long top</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Short top</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Long pant</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Short pant</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-1);">Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--line);background:#FCE8E1;">
+            <td style="padding:12px;font-weight:700;color:var(--accent);">1</td>
+            <td style="padding:12px;font-weight:600;color:var(--fg-1);">ilya <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);">(this work)</span></td>
+            <td style="padding:12px;text-align:right;color:var(--fg-2);">74.5%</td>
+            <td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">70.0%</td>
+            <td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">80.5%</td>
+            <td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">93.5%</td>
+            <td style="padding:12px;text-align:right;font-weight:700;color:var(--accent);">79.63%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">2</td><td style="padding:12px;color:var(--fg-1);">Shubham @ Vorwerk</td><td style="padding:12px;text-align:right;color:var(--fg-2);">73.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">62.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">71.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">87.0%</td><td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">73.50%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">3</td><td style="padding:12px;color:var(--fg-1);">Dum-E</td><td style="padding:12px;text-align:right;color:var(--fg-2);">76.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">62.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">75.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">79.5%</td><td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">73.38%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">4</td><td style="padding:12px;color:var(--fg-1);">SCUT-Unlimited</td><td style="padding:12px;text-align:right;color:var(--fg-2);">65.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">66.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">70.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">91.0%</td><td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">73.13%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">5</td><td style="padding:12px;color:var(--fg-1);">GraspYesAI</td><td style="padding:12px;text-align:right;color:var(--fg-2);">73.5%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">61.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">69.0%</td><td style="padding:12px;text-align:right;color:var(--fg-2);">79.0%</td><td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">70.63%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin:12px 0 0;">Top 5 of 62. Full ranking on the competition website.</p>
+
+    <!-- successful folds gallery (rail) -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:48px 0 20px;">Success examples</h3>
+    <div data-rail-wrap style="position:relative;">
+      <button class="real-rail-btn" type="button" aria-label="Scroll left" data-rail-dir="-1" style="position:absolute;top:50%;transform:translateY(-50%);left:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button class="real-rail-btn" type="button" aria-label="Scroll right" data-rail-dir="1" style="position:absolute;top:50%;transform:translateY(-50%);right:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+      <div id="folds-track" data-rail-track style="display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;"></div>
+    </div>
+
+    <!-- failure gallery -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:48px 0 6px;">Failures</h3>
+    <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 20px;">In most cases the policy is doing the right things. But sometimes it isn't dexterous enough, sometimes it overfits to simulation artifacts and makes mistakes, and sometimes it almost completes the task but gets stuck in a near-success state.</p>
+    <div data-rail-wrap style="position:relative;">
+      <button class="real-rail-btn" type="button" aria-label="Scroll left" data-rail-dir="-1" style="position:absolute;top:50%;transform:translateY(-50%);left:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button class="real-rail-btn" type="button" aria-label="Scroll right" data-rail-dir="1" style="position:absolute;top:50%;transform:translateY(-50%);right:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+      <div id="failure-track" data-rail-track style="display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 07 · SIM-TO-REAL ══════════ -->
+<section id="real" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">07 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Sim to real</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The final round was about solving the same problem, but on real robots. It was held offline as part of the <b>ICRA 2026</b> conference in Vienna.</p>
+      <div class="stack-m" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0;">
+        <figure style="margin:0;">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/garments_real.png" alt="The four real garment types" style="width:100%;display:block;border-radius:4px;"></div>
+          <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">The physical garments the real policy folds &mdash; kids' clothes, to fit the reach of the small arms.</figcaption>
+        </figure>
+        <figure style="margin:0;">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/dataset_montage.png" alt="The three training data sources across three cameras" style="width:100%;display:block;border-radius:4px;"></div>
+          <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">The three training sources differ markedly &mdash; organizer BC, my teleop/DAgger, and sim replays &mdash; which is exactly the diversity the fine-tune needs to span.</figcaption>
+        </figure>
+      </div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">In practice we had very little time to prepare &mdash; less than two weeks &mdash; and between flying to Austria and everything else, I had only about <b>one week</b> to actually work on the solution.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">Another complication: participants didn't really have access to the actual evaluation robot before the competition, so in practice it was <b style="color:var(--fg-1);">sim &rarr; my robot &rarr; their robot</b>, with an extra generalization step baked in.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 14px;">There are two ways to close a domain gap: make the environments more <b style="color:var(--fg-1);">similar</b>, or make the training data <b style="color:var(--fg-1);">diverse</b> enough that the gap falls inside it. I leaned on both:</p>
+      <ul style="font-size:17px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;padding-left:1.1em;list-style:none;">
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>start the fine-tune from a <b style="color:var(--fg-1);">late-but-not-latest</b> sim checkpoint &mdash; the very latest ones were the most overfit to the simulator;</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">strip the model down</b> to what transfers &mdash; the action head plus the garment-type and completion heads &mdash; and drop all the sim-only privileged machinery and RL-related logic (advantage conditioning, guidance, best-of-N, keypoint heads);</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>fine-tune on a <b style="color:var(--fg-1);">three-bucket mix</b>: organizer real data (60%), my own teleop + DAgger (30%), and heavily-augmented sim replays (10%);</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>a <b style="color:var(--fg-1);">camera-overlay alignment tool</b> that allows me to align the camera setup with the actual one used by the organizers;</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">very heavy, per-camera augmentation</b> &mdash; color, gain, gamma, blur, sensor noise, independent crop/rotate/zoom, cutout, camera dropout, and state noise to force the policy to trust pixels over miscalibrated proprioception;</li>
+        <li style="margin-bottom:9px;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span><b style="color:var(--fg-1);">motion-intensity alignment</b> &mdash; resample each source's speed so &ldquo;how far to move in one step&rdquo; is consistent (the sim moved fast, my early DAgger was slow);</li>
+        <li style="margin-bottom:0;position:relative;padding-left:18px;"><span style="position:absolute;left:0;color:var(--fg-3);">&ndash;</span>deliberate <b style="color:var(--fg-1);">rig randomization</b> &mdash; I moved cameras, re-calibrated the arms, and changed lighting over the week so no exact geometry was load-bearing;</li>
+      </ul>
+    </div>
+
+    <!-- camera-overlay alignment -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:44px 0 6px;">Camera-overlay alignment</h3>
+    <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 20px;">My script takes a frame from a full video in the organizers' provided dataset and moves my (or the simulated) robot along the same trajectory. Overlaying the video feeds lets you calibrate the cameras and make sure the robot positions are aligned.</p>
+    <div class="stack-m" style="display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:start;">
+      <figure style="margin:0;">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;"><img src="figures/camera_overlay.png" alt="Live robot cameras overlaid on the dataset frame" style="width:100%;display:block;border-radius:4px;"></div>
+        <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">The three live cameras overlaid on the matching organizer-BC frame after driving the arms to the recorded joint state.</figcaption>
+      </figure>
+      <div data-yt-id="O-gFRbI-eS4" style="position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+        <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/O-gFRbI-eS4/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+        <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">OVERLAY VIDEO</span>
+        <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.92);"></span>
+        <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;"></span>
+      </div>
+    </div>
+
+    <!-- DAgger -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:44px 0 16px;">DAgger on my own robot</h3>
+    <div class="stack-m" style="display:grid;grid-template-columns:1fr 300px;gap:36px;align-items:start;margin-bottom:36px;">
+      <div>
+        <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;">My main strategy was to collect extra DAgger data using my own robot &mdash; teleoperating it to correct the policy wherever it went wrong, then folding those corrections back into the fine-tune.</p>
+        <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0 0 18px;">Because the gap from the actual evaluation setup was always large, I kept the weight of this self-collected data at only <b style="color:var(--fg-1);">30%</b>, while the organizer-provided dataset stayed at <b style="color:var(--fg-1);">60%</b>.</p>
+        <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">Human-in-the-loop interventions turned out to be a sample-efficient way to make the policy more robust to its own mistakes. I only had time for 2&ndash;3 DAgger loop iterations, but I could clearly see the progress the policy made with every step &mdash; I believe this approach could lead to much better results with just a bit more iteration.</p>
+      </div>
+      <figure style="margin:0;">
+        <div data-yt-id="sbNqeulpvLM" data-yt-portrait="1" style="position:relative;width:100%;aspect-ratio:9/16;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/sbNqeulpvLM/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+          <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">VIDEO</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.94);"></span>
+          <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;"></span>
+        </div>
+        <figcaption style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin-top:10px;">Collecting DAgger corrections at home.</figcaption>
+      </figure>
+    </div>
+
+    <!-- dagger gallery -->
+    <div data-rail-wrap style="position:relative;">
+      <button class="real-rail-btn" type="button" aria-label="Scroll left" data-rail-dir="-1" style="position:absolute;top:50%;transform:translateY(-50%);left:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button class="real-rail-btn" type="button" aria-label="Scroll right" data-rail-dir="1" style="position:absolute;top:50%;transform:translateY(-50%);right:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+      <div id="dagger-track" data-rail-track style="display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;"></div>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:11px;line-height:1.6;letter-spacing:0.04em;color:var(--fg-3);margin:10px 0 0;">Note: the clips can look a bit shaky and jittery because the &ldquo;idle&rdquo; frames &mdash; where the model is computing its next prediction &mdash; are skipped here.</p>
+
+    <!-- real robot gallery -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:44px 0 20px;">Autonomous successful rollouts (using my robot)</h3>
+    <div data-rail-wrap style="position:relative;">
+      <button class="real-rail-btn" type="button" aria-label="Scroll left" data-rail-dir="-1" style="position:absolute;top:50%;transform:translateY(-50%);left:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button class="real-rail-btn" type="button" aria-label="Scroll right" data-rail-dir="1" style="position:absolute;top:50%;transform:translateY(-50%);right:-20px;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;z-index:3;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--fg-1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+      <div id="real-track" data-rail-track style="display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;"></div>
+    </div>
+
+    <div class="stack-m" style="display:grid;grid-template-columns:1fr 1.05fr;gap:40px;align-items:center;margin-top:48px;">
+      <div>
+        <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:0 0 12px;">Final standing</h3>
+        <p style="font-size:16px;line-height:1.65;color:var(--fg-2);margin:0;">I placed <b style="color:var(--accent);">2nd</b> in the real-robot final, with <b style="color:var(--accent);">865 of 1080</b> points, judged on-site at ICRA in Vienna. The score is the organizers' combined number: it rewards both how often the robot succeeds and how cleanly it folds, and folding a garment it had never seen before was worth 50% extra.</p>
+      </div>
+      <div>
+      <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:360px;max-width:560px;">
+        <thead>
+          <tr style="border-bottom:1.5px solid var(--fg-1);">
+            <th style="text-align:left;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">#</th>
+            <th style="text-align:left;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-3);">Team</th>
+            <th style="text-align:right;padding:10px 12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--fg-1);">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">1</td><td style="padding:12px;color:var(--fg-1);">sZs</td><td style="padding:12px;text-align:right;font-weight:600;color:var(--fg-1);">895</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);background:#FCE8E1;">
+            <td style="padding:12px;font-weight:700;color:var(--accent);">2</td>
+            <td style="padding:12px;font-weight:600;color:var(--fg-1);">ilya <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);">(this work)</span></td>
+            <td style="padding:12px;text-align:right;font-weight:700;color:var(--accent);">865</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">3</td><td style="padding:12px;color:var(--fg-1);">Dum-E</td><td style="padding:12px;text-align:right;color:var(--fg-2);">762.5</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">4</td><td style="padding:12px;color:var(--fg-1);">SCUT-Unlimited</td><td style="padding:12px;text-align:right;color:var(--fg-2);">635</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">5</td><td style="padding:12px;color:var(--fg-1);">sisigakgak</td><td style="padding:12px;text-align:right;color:var(--fg-2);">570</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:12px;color:var(--fg-3);">6</td><td style="padding:12px;color:var(--fg-1);">Shubham @ Vorwerk</td><td style="padding:12px;text-align:right;color:var(--fg-2);">470</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-3);margin:12px 0 0;">Teams that completed scored real-robot runs. Maximum possible total: 1080 points.</p>
+      </div>
+    </div>
+
+    <!-- official final rollouts -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:48px 0 16px;">Official rollouts from the final</h3>
+    <div class="stack-m" style="display:grid;grid-template-columns:300px 1fr;gap:36px;align-items:start;">
+      <figure style="margin:0;">
+        <div data-yt-id="d6Eajjzcg5k" data-yt-portrait="1" style="position:relative;width:100%;aspect-ratio:9/16;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/d6Eajjzcg5k/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+          <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">VIDEO</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.94);"></span>
+          <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;"></span>
+        </div>
+      </figure>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">Some official rollouts captured during the actual competition final. Apologies for the rough footage &mdash; I was busy with the competition itself and didn't make nicer videos, and the camera feeds weren't recorded.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 08 · TAKEAWAYS ══════════ -->
+<section id="takeaways" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:28px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">08 /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Takeaways</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+    <div>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">I joined the LeHome Challenge to test and experiment with RL approaches for fine-tuning VLA policies; as a bonus exercise, I took on the sim-to-real round as well. I did it all under competition pressure, so many of my decisions may be sub-optimal and not tested enough &mdash; there is definitely a lot of room for improvement.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The biggest low-hanging fruit would be to combine the approaches I used independently for the two rounds: full RL in sim, and plain behavior cloning with human corrections on the real robot. These halves are complementary, and a single pipeline &mdash; a real-side value function driving advantages and best-of-N, with DAgger interventions weighted by that same signal &mdash; would combine round one's cleanliness with round two's recovery. I'm fairly sure that with slight refinement and less time pressure my recipe could reach well above 90% on this task.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">Even so, I believe the overall recipe I used is the right way to improve VLA-like policies with RL and human-in-the-loop methods, and many of the ideas here can be reused independently. I share my code, a detailed tech report, and the final policy weights below.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">I'm also working on longer videos where I explain everything in much more detail &mdash; stay tuned.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CITE ══════════ -->
+<section id="cite" style="padding:56px 0;border-top:1px solid var(--line);">
+  <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 28px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px;">
+      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent);">&infin; /</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-0.02em;color:var(--fg-1);">Paper, code &amp; citation</h2>
+      <span style="flex:1;height:1px;background:var(--line);"></span>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
+      <a class="btn-dark" href="https://arxiv.org/abs/2606.27163" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:11px 18px;border:1px solid var(--fg-1);border-radius:999px;color:var(--bg);background:var(--fg-1);text-decoration:none;">Read the tech report &mdash; arXiv:2606.27163&nbsp;↗</a>
+      <a class="btn-outline" href="https://github.com/IliaLarchenko/lehome_solution" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:11px 18px;border:1px solid var(--fg-1);border-radius:999px;color:var(--fg-1);background:var(--bg);text-decoration:none;">Code &mdash; github.com/IliaLarchenko/lehome_solution&nbsp;↗</a>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">
+      <a class="btn-ghost" href="https://huggingface.co/IliaLarchenko/lehome_sim" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2);background:var(--bg);text-decoration:none;">🤗 lehome_sim &mdash; simulation policy&nbsp;↗</a>
+      <a class="btn-ghost" href="https://huggingface.co/IliaLarchenko/lehome_real" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2);background:var(--bg);text-decoration:none;">🤗 lehome_real &mdash; real-robot policy&nbsp;↗</a>
+    </div>
+
+    <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:20px 22px;font-family:var(--font-mono);font-size:13px;line-height:1.6;color:var(--fg-1);overflow-x:auto;white-space:pre;">@misc{larchenko2026lehome,
+  title         = {{Learning to Fold: prizewinning solution at LeHome Challenge 2026 (1st place online, 2nd offline)}},
+  author        = {Larchenko, Ilia},
+  year          = {2026},
+  eprint        = {2606.27163},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2606.27163}
+}</div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer style="border-top:1px solid var(--line);padding:48px 0 64px;background:var(--bg);">
+  <div class="wrap footer-grid" style="max-width:1080px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;">
+    <div><a href="https://ilialarchenko.com/" target="_blank" rel="noopener noreferrer" aria-label="ilia." style="display:inline-block;"><img src="../../assets/wordmark.svg" alt="ilia." style="display:block;height:36px;width:auto;"></a></div>
+    <div class="footer-social" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+      <a class="social" href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.18c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+      <a class="social" href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.4A3 3 0 0 0 .5 6.5C.1 8.4.1 12 .1 12s0 3.6.4 5.5a3 3 0 0 0 2.1 2.1c1.9.4 9.4.4 9.4.4s7.5 0 9.4-.4a3 3 0 0 0 2.1-2.1c.4-1.9.4-5.5.4-5.5s0-3.6-.4-5.5ZM9.7 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg></a>
+      <a class="social" href="https://www.linkedin.com/in/larchenko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.28V1.72C24 .77 23.21 0 22.22 0Z"/></svg></a>
+      <a class="social" href="https://x.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" style="width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--fg-1);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77Z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ===========================================================
+  //  VIDEO CLIPS — 11-char YouTube ids. Empty string = placeholder.
+  // ===========================================================
+  var SIM_FOLDS = [
+    '-Wxj6kCXrQY', 'XZ5He60NpSY', 'nZ0jMj663mY', 'TaVlz1J43os',
+    'J5JCNGRWFUM', '6D4dtGtTRCw', 'DdwiFqcneyA', 'uk81C16x_0I'
+  ];
+  var FAILURES = [
+    'GJmMQSSifag', 'aFXs_vyq4_o', '4bdb2SzQQz0', 'nEcHcqF8Dr0',
+    'TIY8uUKXerY', '8_qKp6s0rYg', 'oQjezewH-LA', 'r1i5hJe-Aos',
+    '1ecAgtLKTUg', 'PmJQmD_FsBM', 'eZHtH1VQb_A', 'aaEckMM8PPg'
+  ];
+  var REAL = ['tsEtvYXJsGE', 'Q7YNfeka5Jo', 'p2AEMKM9N7c', 'xTSsMc8WS4Q'];
+  var DAGGER = ['othiIgakCLM', '2Ga5mtKW8ao', 'zV-l-Varo7w', 'Ty_FxqXS4LI'];
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function card(yt) {
+    yt = yt || '';
+    var thumb = yt
+      ? '<img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/' + esc(yt) + '/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">'
+      : '';
+    return '' +
+      '<div data-yt-id="' + esc(yt) + '" style="flex:0 0 340px;max-width:78vw;scroll-snap-align:start;position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">' +
+        thumb +
+        '<span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.92);"></span>' +
+        '<span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;"></span>' +
+        '<span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;">VIDEO</span>' +
+      '</div>';
+  }
+
+  function fill(id, list) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = list.map(card).join('');
+  }
+
+  fill('folds-track', SIM_FOLDS);
+  fill('failure-track', FAILURES);
+  fill('dagger-track', DAGGER);
+  fill('real-track', REAL);
+
+  // --- Lightbox: click any figure image to zoom it fullscreen ---
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:4vmin;background:rgba(17,17,17,0.93);opacity:0;pointer-events:none;transition:opacity 200ms cubic-bezier(0.2,0,0.2,1);cursor:zoom-out;';
+  var big = document.createElement('img');
+  big.style.cssText = 'max-width:92vw;max-height:92vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,0.4);transform:scale(0.98);transition:transform 200ms cubic-bezier(0.2,0,0.2,1);';
+  overlay.appendChild(big);
+  document.body.appendChild(overlay);
+  function closeLightbox() {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    big.style.transform = 'scale(0.98)';
+  }
+  overlay.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
+  document.querySelectorAll('figure img').forEach(function (im) { im.style.cursor = 'zoom-in'; });
+
+  // --- Delegated clicks: rail arrows, lightbox, lazy YouTube embed ---
+  document.addEventListener('click', function (e) {
+    var railBtn = e.target.closest('[data-rail-dir]');
+    if (railBtn) {
+      var wrap = railBtn.closest('[data-rail-wrap]');
+      var rail = wrap && wrap.querySelector('[data-rail-track]');
+      if (rail) {
+        var dir = parseInt(railBtn.getAttribute('data-rail-dir'), 10) || 1;
+        rail.scrollBy({ left: dir * Math.round(rail.clientWidth * 0.85), behavior: 'smooth' });
+      }
+      return;
+    }
+
+    var zoomable = e.target.closest('figure img');
+    if (zoomable) {
+      big.src = zoomable.getAttribute('src');
+      overlay.style.pointerEvents = 'auto';
+      overlay.style.opacity = '1';
+      requestAnimationFrame(function () { big.style.transform = 'scale(1)'; });
+      return;
+    }
+
+    var f = e.target.closest('[data-yt-id]');
+    if (!f) return;
+    var id = f.getAttribute('data-yt-id');
+    if (!id || f.getAttribute('data-loaded')) return;
+    var loop = f.getAttribute('data-yt-loop') ? '&loop=1&playlist=' + encodeURIComponent(id) : '';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?rel=0&modestbranding=1&playsinline=1&autoplay=1&mute=1' + loop;
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    if (f.getAttribute('data-yt-portrait')) {
+      iframe.style.cssText = 'border:0;display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;aspect-ratio:9/16;height:auto;min-height:100%;z-index:3;';
+    } else {
+      iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;position:absolute;inset:0;z-index:3;';
+    }
+    f.appendChild(iframe);
+    f.setAttribute('data-loaded', '1');
+  });
+})();
+</script>
+</body>
+</html>
