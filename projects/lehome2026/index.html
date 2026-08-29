@@ -535,7 +535,42 @@
       <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">I joined the LeHome Challenge to test and experiment with RL approaches for fine-tuning VLA policies; as a bonus exercise, I took on the sim-to-real round as well. I did it all under competition pressure, so many of my decisions may be sub-optimal and not tested enough &mdash; there is definitely a lot of room for improvement.</p>
       <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">The biggest low-hanging fruit would be to combine the approaches I used independently for the two rounds: full RL in sim, and plain behavior cloning with human corrections on the real robot. These halves are complementary, and a single pipeline &mdash; a real-side value function driving advantages and best-of-N, with DAgger interventions weighted by that same signal &mdash; would combine round one's cleanliness with round two's recovery. I'm fairly sure that with slight refinement and less time pressure my recipe could reach well above 90% on this task.</p>
       <p style="font-size:18px;line-height:1.7;color:var(--fg-1);margin:0 0 18px;">Even so, I believe the overall recipe I used is the right way to improve VLA-like policies with RL and human-in-the-loop methods, and many of the ideas here can be reused independently. I share my code, a detailed tech report, and the final policy weights below.</p>
-      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">I'm also working on longer videos where I explain everything in much more detail &mdash; stay tuned.</p>
+      <p style="font-size:18px;line-height:1.7;color:var(--fg-2);margin:0;">I also recorded three longer videos where I explain the whole process in much more detail.</p>
+    </div>
+
+    <!-- deep-dive video series -->
+    <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:44px 0 20px;">Deep-dive video series</h3>
+    <div class="stack-m" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start;">
+      <div>
+        <div data-yt-id="mTohakalKz8" style="position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/mTohakalKz8/hqdefault.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+          <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">PART 1</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.92);"></span>
+          <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;"></span>
+        </div>
+        <h4 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:14px 0 6px;"><a class="dlink" href="https://youtu.be/mTohakalKz8" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Simulation round: problem, model &amp; RL approach&nbsp;↗</a></h4>
+        <p style="font-size:15px;line-height:1.6;color:var(--fg-2);margin:0;">Why PPO-style RL doesn't fit flow-matching VLAs, AWR + RECAP, the asynchronous RL loop, policy architecture, and rollout collection.</p>
+      </div>
+      <div>
+        <div data-yt-id="BYyHScYDL38" style="position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/BYyHScYDL38/hqdefault.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+          <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">PART 2</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.92);"></span>
+          <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;"></span>
+        </div>
+        <h4 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:14px 0 6px;"><a class="dlink" href="https://youtu.be/BYyHScYDL38" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Advantage engineering &amp; inference-time optimization&nbsp;↗</a></h4>
+        <p style="font-size:15px;line-height:1.6;color:var(--fg-2);margin:0;">Building a dense reward, the value function and the CUPED-inspired advantage fix, plus classifier-free guidance, best-of-N and Thompson sampling.</p>
+      </div>
+      <div>
+        <div data-yt-id="0j2B2cXoiu4" style="position:relative;aspect-ratio:16/9;background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/0j2B2cXoiu4/hqdefault.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+          <span style="position:absolute;left:10px;top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;background:rgba(0,0,0,0.6);color:#fff;padding:3px 7px;border-radius:3px;z-index:2;">PART 3</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.92);"></span>
+          <span style="position:absolute;left:calc(50% + 3px);top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;"></span>
+        </div>
+        <h4 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;color:var(--fg-1);margin:14px 0 6px;"><a class="dlink" href="https://youtu.be/0j2B2cXoiu4" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Real round: DAgger collection &amp; sim-to-real&nbsp;↗</a></h4>
+        <p style="font-size:15px;line-height:1.6;color:var(--fg-2);margin:0;">The sim-to-real (and real-to-real) gap, camera alignment, real bugs and issues, human-in-the-loop DAgger, and the final at ICRA in Vienna.</p>
+      </div>
     </div>
   </div>
 </section>
