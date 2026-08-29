@@ -763,14 +763,14 @@
         <!-- GitHub stars -->
         <a href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">GitHub</span>
-          <div class="num"><span class="accent">800<span class="plus">+</span></span> · <span class="src">GitHub stars</span></div>
+          <div class="num"><span class="accent">900<span class="plus">+</span></span> · <span class="src">GitHub stars</span></div>
           <div class="sub">Across open-source repos</div>
         </a>
 
         <!-- YouTube -->
         <a href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">YouTube</span>
-          <div class="num"><span class="accent">6K<span class="plus">+</span></span> · <span class="src">YouTube subs</span></div>
+          <div class="num"><span class="accent">7K<span class="plus">+</span></span> · <span class="src">YouTube subs</span></div>
           <div class="sub">Deep robotics &amp; ML videos</div>
         </a>
 
@@ -882,7 +882,7 @@
       <article class="award-card featured">
         <div class="award-body">
           <div class="award-eyebrow"><span class="place">🏆 1st place</span><span>ICRA · 2026 · online round</span></div>
-          <h3>LeHome Challenge</h3>
+          <h3>LeHome Challenge — Online</h3>
           <p>1st place in the online round of the LeHome Challenge (ICRA 2026). The task was to train a bimanual robot in simulation to fold 4 different types of garments. I implemented the whole distributed RL pipeline from scratch, combining existing approaches with new ideas across model architecture, reward design, RL logic, and data collection.</p>
           <div class="award-tags">
             <span>ICRA 2026</span><span>Robotics</span><span>RL</span><span>VLA</span>
@@ -1018,6 +1018,9 @@
         <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
       </button>
       <div class="video-rail" id="videoRail">
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="0j2B2cXoiu4"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/0j2B2cXoiu4/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="BYyHScYDL38"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/BYyHScYDL38/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
+        <article class="video-card"><div class="frame click-to-load" data-yt-id="mTohakalKz8"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/mTohakalKz8/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
         <article class="video-card"><div class="frame click-to-load" data-yt-id="xl9yCXxjV_A"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/xl9yCXxjV_A/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
         <article class="video-card"><div class="frame click-to-load" data-yt-id="J4wpO0EdCZs"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/J4wpO0EdCZs/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
         <article class="video-card"><div class="frame click-to-load" data-yt-id="8dZUOo5xWFw"><img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/8dZUOo5xWFw/hqdefault.jpg" alt="" loading="lazy"><span class="play-btn" aria-hidden="true"></span><span class="yt-tag">YT</span></div></article>
@@ -1126,6 +1129,13 @@
   (function() {
     var rail = document.getElementById('videoRail');
     if (rail) {
+      // Shuffle video order on every page load (Fisher-Yates)
+      var cards = Array.prototype.slice.call(rail.children);
+      for (var i = cards.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = cards[i]; cards[i] = cards[j]; cards[j] = t;
+      }
+      cards.forEach(function(c) { rail.appendChild(c); });
       document.querySelectorAll('[data-rail-dir]').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var dir = parseInt(btn.getAttribute('data-rail-dir'), 10) || 1;
