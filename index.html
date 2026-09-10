@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Ilia Larchenko — ML, AI, robotics</title>
+  <title>Ilia Larchenko | AI/ML Leader &amp; Robotics Researcher</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Ilia Larchenko — Data Science Director at Agoda, robotics &amp; ML side projects. BEHAVIOR Challenge 1st place, Kaggle TOP-20, open-source VLA models.">
+  <meta name="description" content="AI/ML leader and independent robotics researcher. Winner of the NeurIPS 2025 BEHAVIOR Challenge, 1st in simulation / 2nd on real hardware at ICRA LeHome 2026, Kaggle global top-20, Director of Data Science at Agoda.">
   <meta name="author" content="Ilia Larchenko">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://ilialarchenko.com/">
@@ -12,8 +12,8 @@
   <!-- ═══ Open Graph (Facebook, LinkedIn, Slack, Discord, Telegram, iMessage…) ═══ -->
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="Ilia Larchenko">
-  <meta property="og:title" content="Ilia Larchenko — ML, AI, robotics">
-  <meta property="og:description" content="Data Science Director at Agoda. Robotics, ML &amp; AI side projects. 1st place at BEHAVIOR Challenge (NeurIPS 2025) and LeHome Challenge (ICRA 2026). Kaggle TOP-20.">
+  <meta property="og:title" content="Ilia Larchenko | AI/ML Leader &amp; Robotics Researcher">
+  <meta property="og:description" content="AI/ML leader and independent robotics researcher. Winner of the NeurIPS 2025 BEHAVIOR Challenge, 1st in simulation / 2nd on real hardware at ICRA LeHome 2026, Kaggle global top-20, Director of Data Science at Agoda.">
   <meta property="og:url" content="https://ilialarchenko.com/">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://ilialarchenko.com/assets/og-image.png">
@@ -21,7 +21,7 @@
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Ilia Larchenko — Data Science Director at Agoda. Robotics, ML &amp; AI side projects.">
+  <meta property="og:image:alt" content="Ilia Larchenko — AI/ML leader and independent robotics researcher.">
   <meta property="profile:first_name" content="Ilia">
   <meta property="profile:last_name" content="Larchenko">
   <meta property="profile:username" content="IliaLarchenko">
@@ -30,10 +30,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@IliaLarchenko">
   <meta name="twitter:creator" content="@IliaLarchenko">
-  <meta name="twitter:title" content="Ilia Larchenko — ML, AI, robotics">
-  <meta name="twitter:description" content="Data Science Director at Agoda. Robotics, ML &amp; AI side projects. 1st place at BEHAVIOR (NeurIPS 2025) and LeHome (ICRA 2026). Kaggle TOP-20.">
+  <meta name="twitter:title" content="Ilia Larchenko | AI/ML Leader &amp; Robotics Researcher">
+  <meta name="twitter:description" content="AI/ML leader and independent robotics researcher. NeurIPS 2025 BEHAVIOR Challenge winner, 1st sim / 2nd real at ICRA LeHome 2026, Kaggle global top-20, Director of Data Science at Agoda.">
   <meta name="twitter:image" content="https://ilialarchenko.com/assets/og-image.png">
-  <meta name="twitter:image:alt" content="Ilia Larchenko — Data Science Director at Agoda. Robotics, ML &amp; AI side projects.">
+  <meta name="twitter:image:alt" content="Ilia Larchenko — AI/ML leader and independent robotics researcher.">
 
   <!-- ═══ Theme color for browser chrome on share previews / mobile ═══ -->
   <meta name="theme-color" content="#FAFAFA">
@@ -48,8 +48,16 @@
     "familyName": "Larchenko",
     "url": "https://ilialarchenko.com/",
     "image": "https://ilialarchenko.com/assets/og-image.png",
+    "description": "AI/ML leader and independent robotics researcher. Director of Data Science at Agoda. Winner of the NeurIPS 2025 BEHAVIOR Challenge; 1st in simulation and 2nd on real hardware at the ICRA 2026 LeHome Challenge; Kaggle global top-20.",
     "jobTitle": "Director of Data Science",
     "worksFor": { "@type": "Organization", "name": "Agoda" },
+    "knowsAbout": ["Robotics", "Reinforcement learning", "Imitation learning", "Vision-language-action models", "Sim-to-real transfer", "Robot manipulation", "Machine learning", "Data science"],
+    "award": [
+      "1st place, BEHAVIOR Challenge (NeurIPS 2025)",
+      "1st place simulation round and 2nd place real-robot final, LeHome Challenge (ICRA 2026)",
+      "3rd place, Abstraction and Reasoning Challenge (Kaggle 2020)",
+      "Kaggle Competitions Master, peak global top-20"
+    ],
     "alumniOf": { "@type": "CollegeOrUniversity", "name": "Moscow Institute of Physics and Technology" },
     "sameAs": [
       "https://github.com/IliaLarchenko",
@@ -251,6 +259,22 @@
       color: var(--fg-2);
       max-width: 560px;
     }
+    .tile-name p.tagline {
+      font-size: clamp(17px, 1.7vw, 21px);
+      font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: var(--fg-1);
+    }
+    .tile-name p.creds {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      color: var(--fg-2);
+    }
+    .tile-name p.creds .sep { color: var(--fg-3); margin: 0 4px; }
     .tile-photo {
       padding: 0;
       overflow: hidden;
@@ -331,6 +355,13 @@
       border-bottom: 1px solid transparent;
     }
     .section-head .more:hover { color: var(--fg-1); border-bottom-color: var(--fg-1); }
+    .section-intro {
+      margin: -12px 0 28px;
+      max-width: 72ch;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--fg-2);
+    }
 
     /* ─── About ────────────────────────────────────────────── */
     .about-grid {
@@ -686,7 +717,7 @@
     <div class="nav-sections">
       <a href="#about">About</a>
       <a href="#career">Career</a>
-      <a href="#competitions">Competitions</a>
+      <a href="#research">Research &amp; Competitions</a>
       <a href="#videos">Videos</a>
       <a href="#projects">Projects</a>
     </div>
@@ -721,7 +752,8 @@
         <!-- Name + intro -->
         <div class="tile tile-name">
           <h1>Ilia<br>Larchenko<span class="accent">.</span></h1>
-          <p>Data Science Director at Agoda · Experimenting with AI and Robotics on the side · Successfully participating in ML competitions.</p>
+          <p class="tagline">AI/ML leader and independent robotics researcher.</p>
+          <p class="creds">NeurIPS BEHAVIOR '25 winner<span class="sep">·</span>ICRA LeHome '26: 1st sim / 2nd real<span class="sep">·</span>Kaggle global top-20<span class="sep">·</span>Director @ Agoda</p>
         </div>
 
         <!-- Photo -->
@@ -736,7 +768,7 @@
         <div data-size="wide" class="tile tile-stat accent">
           <span class="meta">Experience</span>
           <div class="num"><span class="accent">14 years</span> · <span class="src">DS, ML &amp; AI</span></div>
-          <div class="sub">Leadership &amp; hands-on</div>
+          <div class="sub">Executive leadership &amp; hands-on research</div>
         </div>
 
         <!-- Kaggle TOP-20 -->
@@ -747,23 +779,23 @@
         </a>
 
         <!-- BEHAVIOR award -->
-        <a href="#competitions" data-size="wide" class="tile tile-stat" style="text-decoration:none;">
+        <a href="#research" data-size="wide" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">🏆 NeurIPS 2025</span>
           <div class="num"><span class="accent">1<span class="ord">st</span> place</span> · <span class="src">BEHAVIOR Challenge</span></div>
-          <div class="sub">Long-horizon household tasks · Stanford VL lab</div>
+          <div class="sub">50 long-horizon household tasks · VLA policy</div>
         </a>
 
         <!-- LeHome award — mirrors BEHAVIOR; rounds (small) · LeHome Challenge -->
-        <a href="#competitions" data-size="wide" class="tile tile-stat tile-lehome" style="text-decoration:none;">
+        <a href="#research" data-size="wide" class="tile tile-stat tile-lehome" style="text-decoration:none;">
           <span class="meta">🏆 ICRA 2026</span>
-          <div class="num"><span class="accent rounds-inline">1<span class="ord">st</span> Online <span class="bar">|</span> 2<span class="ord">nd</span> Offline</span> · <span class="src">LeHome Challenge</span></div>
-          <div class="sub">Bimanual garment folding · RL + VLA</div>
+          <div class="num"><span class="accent rounds-inline">1<span class="ord">st</span> sim <span class="bar">|</span> 2<span class="ord">nd</span> real</span> · <span class="src">LeHome Challenge</span></div>
+          <div class="sub">Solo entry · bimanual garment folding · VLA + RL</div>
         </a>
 
         <!-- GitHub stars -->
         <a href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">GitHub</span>
-          <div class="num"><span class="accent">900<span class="plus">+</span></span> · <span class="src">GitHub stars</span></div>
+          <div class="num"><span class="accent">1000<span class="plus">+</span></span> · <span class="src">GitHub stars</span></div>
           <div class="sub">Across open-source repos</div>
         </a>
 
@@ -771,11 +803,11 @@
         <a href="https://www.youtube.com/@ilialarchenko" target="_blank" rel="noopener noreferrer" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">YouTube</span>
           <div class="num"><span class="accent">7K<span class="plus">+</span></span> · <span class="src">YouTube subs</span></div>
-          <div class="sub">Deep robotics &amp; ML videos</div>
+          <div class="sub">Technical robotics &amp; AI videos</div>
         </a>
 
         <!-- ARC podium -->
-        <a href="#competitions" class="tile tile-stat" style="text-decoration:none;">
+        <a href="#research" class="tile tile-stat" style="text-decoration:none;">
           <span class="meta">Kaggle 2020</span>
           <div class="num"><span class="accent">3<span class="ord">rd</span> place</span> · <span class="src">ARC Challenge</span></div>
           <div class="sub">Predecessor of ARC-AGI benchmark</div>
@@ -799,9 +831,10 @@
     </div>
 
     <div class="about-grid">
-      <p>I'm Ilia Larchenko — Director of Data Science at Agoda in Bangkok, with 14 years across DS, ML and analytics. My teams ship high-load production systems for pricing and bidding optimization, customer-behavior and LTV prediction, agentic AI services and other projects. In my free time I work on robotics, ML and AI side projects.</p>
-      <p>In the past I was top-20 globally on Kaggle, more recently I won robotics competitions: BEHAVIOR-1K (NeurIPS 2025) and LeHome (1st in the online and 2nd in the real-world round, ICRA 2026).</p>
-      <p>I post videos on YouTube and ship code on GitHub. I like to share my knowledge and explain complex technical problems in a clear and simple way.</p>
+      <p>I'm Ilia Larchenko, an <span class="accent">AI/ML leader</span> and <span class="accent">independent robotics researcher</span> based in Bangkok.</p>
+      <p>At Agoda, I lead multiple Data Science and Machine Learning teams working across pricing, bidding, LTV attribution, experimentation, FinTech, bot detection, and LLM agents. I combine organizational leadership with hands-on technical and system-architecture work.</p>
+      <p>I also conduct independent robotics research, focusing on reinforcement learning, imitation learning, VLA models, sim2real, and real-world manipulation. Recent results include winning the NeurIPS 2025 BEHAVIOR Challenge and placing 1st in simulation and 2nd on real hardware in the ICRA 2026 LeHome Challenge. Earlier, I reached the global top-20 on Kaggle.</p>
+      <p>I publish code, technical reports, experiments, and detailed videos through GitHub, arXiv, this website, and YouTube.</p>
     </div>
   </div>
 </section>
@@ -825,7 +858,8 @@
         <div class="tl-body">
           <h3>Director, Data Science</h3>
           <p class="org">Agoda · Bangkok</p>
-          <p>Leading multiple DS/ML teams across pricing, bidding, LTV attribution, experimentation, FinTech, bot detection, and LLM agents.</p>
+          <p>Lead multiple DS/ML teams across pricing, bidding, LTV attribution, experimentation, FinTech, bot detection, content optimization, and LLM agents.</p>
+          <p>Directly manage ~20 people while providing technical and architectural leadership across larger cross-functional organizations. ML systems built by my teams are <b>used by millions of customers</b>.</p>
         </div>
       </div>
 
@@ -867,13 +901,13 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
-     COMPETITIONS
+     RESEARCH & COMPETITIONS
      ════════════════════════════════════════════════════════════ -->
-<section id="competitions">
+<section id="research">
   <div class="container">
     <div class="section-head">
       <span class="num">03 /</span>
-      <h2>Competitions</h2>
+      <h2>Research &amp; Competitions</h2>
       <span class="rule"></span>
     </div>
 
@@ -881,21 +915,22 @@
 
       <article class="award-card featured">
         <div class="award-body">
-          <div class="award-eyebrow"><span class="place">🏆 1st place</span><span>ICRA · 2026 · online round</span></div>
-          <h3>LeHome Challenge — Online</h3>
-          <p>1st place in the online round of the LeHome Challenge (ICRA 2026). The task was to train a bimanual robot in simulation to fold 4 different types of garments. I implemented the whole distributed RL pipeline from scratch, combining existing approaches with new ideas across model architecture, reward design, RL logic, and data collection.</p>
+          <div class="award-eyebrow"><span class="place">🥇 1st / 62 simulation</span><span class="place silver">🥈 2nd real-world</span><span>ICRA · 2026</span></div>
+          <h3>LeHome Challenge</h3>
+          <p>Solo entry in a bimanual garment-folding challenge. In simulation, I built an end-to-end VLA + RL pipeline with asynchronous distributed training, value prediction, advantage conditioning, and inference-time optimization, finishing 1st of 62 teams. For the real-world final, I built the sim2real and DAgger-like data-collection pipeline and adapted the policy to physical hardware in about a week, finishing 2nd.</p>
           <div class="award-tags">
-            <span>ICRA 2026</span><span>Robotics</span><span>RL</span><span>VLA</span>
+            <span>VLA</span><span>RL</span><span>sim2real</span>
           </div>
           <div class="award-links">
-            <a href="https://ilialarchenko.com/projects/lehome2026" target="_blank" rel="noopener noreferrer">Blog post ↗</a>
+            <a href="https://ilialarchenko.com/projects/lehome2026" target="_blank" rel="noopener noreferrer">Solution blog ↗</a>
+            <a href="https://arxiv.org/abs/2606.27163" target="_blank" rel="noopener noreferrer">Paper ↗</a>
             <a href="https://github.com/IliaLarchenko/lehome_solution" target="_blank" rel="noopener noreferrer">Code ↗</a>
-            <a class="subtle" href="https://lehome-challenge.com/" target="_blank" rel="noopener noreferrer">Challenge site ↗</a>
+            <a class="subtle" href="https://lehome-challenge.com/" target="_blank" rel="noopener noreferrer">Challenge ↗</a>
           </div>
         </div>
         <div class="award-media">
-          <div class="frame click-to-load award-frame" data-yt-id="6B4X6_S9_uk" data-yt-title="LeHome Challenge — winning run">
-            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/6B4X6_S9_uk/hqdefault.jpg" alt="" loading="lazy">
+          <div class="frame click-to-load award-frame" data-yt-id="_LBU3ue0CpU" data-yt-title="LeHome Challenge — solution overview">
+            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/_LBU3ue0CpU/hqdefault.jpg" alt="" loading="lazy">
             <span class="play-btn" aria-hidden="true"></span>
             <span class="yt-tag">YT</span>
           </div>
@@ -904,34 +939,11 @@
 
       <article class="award-card featured">
         <div class="award-body">
-          <div class="award-eyebrow"><span class="place silver">🥈 2nd place</span><span>ICRA · 2026 · offline round</span></div>
-          <h3>LeHome Challenge — Offline</h3>
-          <p>2nd place in the offline (real-world) round of the LeHome Challenge (ICRA 2026). I transferred the folding policy from simulation to the real robot: set up the experimentation rig, implemented a DAgger-like data-collection pipeline from scratch, and trained a working policy in ~1 week.</p>
-          <div class="award-tags">
-            <span>sim-to-real</span><span>DAgger</span><span>deformable objects</span>
-          </div>
-          <div class="award-links">
-            <a href="https://ilialarchenko.com/projects/lehome2026" target="_blank" rel="noopener noreferrer">Blog post ↗</a>
-            <a href="https://github.com/IliaLarchenko/lehome_solution" target="_blank" rel="noopener noreferrer">Code ↗</a>
-            <a class="subtle" href="https://lehome-challenge.com/" target="_blank" rel="noopener noreferrer">Challenge site ↗</a>
-          </div>
-        </div>
-        <div class="award-media">
-          <div class="frame click-to-load award-frame" data-yt-id="d6Eajjzcg5k" data-yt-title="LeHome Challenge — offline round, real robot">
-            <img referrerpolicy="no-referrer" src="https://i.ytimg.com/vi/d6Eajjzcg5k/hqdefault.jpg" alt="" loading="lazy">
-            <span class="play-btn" aria-hidden="true"></span>
-            <span class="yt-tag">YT</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="award-card featured">
-        <div class="award-body">
-          <div class="award-eyebrow"><span class="place">🏆 1st place</span><span>NeurIPS · 2025</span></div>
+          <div class="award-eyebrow"><span class="place">🥇 1st place</span><span>NeurIPS · 2025</span></div>
           <h3>BEHAVIOR Challenge</h3>
-          <p>1st place in the BEHAVIOR Challenge at NeurIPS 2025 (from Stanford VL lab) — 50 long-horizon household tasks in the simulator. Our team of 3 trained a modified Pi0.5 VLA policy on demonstrations.</p>
+          <p>Winner of the BEHAVIOR Challenge at NeurIPS 2025, organized by the Stanford Vision &amp; Learning lab: 50 long-horizon household tasks in simulation. Our team of three trained a modified Pi0.5 VLA policy on demonstrations and released the tech report on arXiv, the code, and a detailed video.</p>
           <div class="award-tags">
-            <span>NeurIPS 2025</span><span>Robotics</span><span>VLA</span><span>Pi0.5</span>
+            <span>VLA</span><span>Pi0.5</span><span>Long-horizon</span><span>Imitation learning</span>
           </div>
           <div class="award-links">
             <a href="https://arxiv.org/abs/2512.06951" target="_blank" rel="noopener noreferrer">Tech report ↗</a>
@@ -952,7 +964,7 @@
         <div class="award-body">
           <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Kaggle Master</span><span>Kaggle</span></div>
           <h3>Kaggle Competitions Master</h3>
-          <p><b>25 medals in competitions</b>, peak <b>top-20 globally</b> out of 150k+ users. Master tier in both Competitions and Notebooks.</p>
+          <p><b>25 competition medals</b>, peak <b>top-20 globally</b> out of 150k+ users. Master tier in both Competitions and Notebooks.</p>
           <div class="award-tags">
             <span>Competitions Master</span><span>Notebooks Master</span><span>25 medals</span>
           </div>
@@ -1009,6 +1021,7 @@
       <span class="rule"></span>
       <a class="more" href="https://www.youtube.com/@ilialarchenko/videos" target="_blank" rel="noopener noreferrer">Channel · @ilialarchenko ↗</a>
     </div>
+    <p class="section-intro">I publish detailed technical videos about robotics and AI, usually based on systems I have built myself. Topics include VLA models, reinforcement learning, imitation learning, sim2real, robot control, and competition solutions.</p>
 
     <div class="video-rail-wrap">
       <button class="rail-btn prev" type="button" aria-label="Previous" data-rail-dir="-1">
@@ -1042,7 +1055,7 @@
   <div class="container">
     <div class="section-head">
       <span class="num">05 /</span>
-      <h2>Other pet projects</h2>
+      <h2>Selected Projects</h2>
       <span class="rule"></span>
       <a class="more" href="https://github.com/IliaLarchenko" target="_blank" rel="noopener noreferrer">All repos on GitHub ↗</a>
     </div>
@@ -1051,7 +1064,7 @@
 
       <article class="award-card">
         <div class="award-body">
-          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Repo</span><span>Behavior cloning</span></div>
+          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Open source</span><span>Behavior cloning</span></div>
           <h3>dot_policy</h3>
           <p>Decoder-Only Transformer behavior-cloning policy. Sometimes <b>100× smaller</b> than SOTA, no diffusion, no tokenization, no RL — very simple, but beats the prior best on PushT and ALOHA Insert.</p>
           <div class="award-tags">
@@ -1072,7 +1085,7 @@
 
       <article class="award-card">
         <div class="award-body">
-          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Repo</span><span>LLM + robotics</span></div>
+          <div class="award-eyebrow"><span class="place" style="background:var(--fg-1);">Open source</span><span>LLM + robotics</span></div>
           <h3>robot_MCP</h3>
           <p>A <b>Model Context Protocol</b> server for the SO-ARM100 low-cost robot arm. Lets an LLM drive the arm directly through tool calls — no separate robotics policy required.</p>
           <div class="award-tags">
