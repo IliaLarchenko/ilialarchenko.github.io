@@ -29,10 +29,6 @@
     <p>Taking you to <a href="/">ilialarchenko.com</a> in <b id="s">10</b> seconds.</p>
   </main>
   <script>
-    if (location.pathname.indexOf('/projects/roboeval2026') === 0) {
-      document.getElementById('t').innerHTML = 'This page isn’t published yet<span>.</span>';
-      document.getElementById('m').textContent = 'The RoboEval 2026 write-up will appear here soon.';
-    }
     var n = 10, el = document.getElementById('s');
     var timer = setInterval(function () {
       n -= 1; el.textContent = n;
